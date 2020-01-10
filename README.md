@@ -1,16 +1,13 @@
-# state_navigation
+# Base Flutter application
 
-A new Flutter application.
+The main pourpose of this repository is create a base project to be used in all my Flutter Apps.
 
-## Getting Started
+## What does it have?
 
-This project is a starting point for a Flutter application.
+Until now, this base project has:
 
-A few resources to get you started if this is your first Flutter project:
+- Nested Navigation;
+- Navigation between tabs (inside Bottom Navigation);
+- Keeps state between tabs.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Feel free to use and modify it as you want, this is a free software! ;)
