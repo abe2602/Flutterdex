@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:state_navigation/tab_navigatior.dart';
+import 'package:state_navigation/presentation/common/tab_navigatior.dart';
 
 import 'bottom_navigation.dart';
 

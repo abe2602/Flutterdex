@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'bottom_navigation.dart';
-import 'movieList.dart';
+import '../movie/movieListView.dart';
 
 class TabNavigatorRoutes {
   static const String root = '/';
@@ -19,9 +19,9 @@ class TabNavigator extends StatelessWidget {
     return {
       TabNavigatorRoutes.root: (context){
         if(tabItem == TabItem.movies){
-          return MoviesList();
+          return MoviesListView();
         }else{
-          return MoviesList();
+          return MoviesListView();
         }
       }
     };

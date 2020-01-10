@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'movie.dart';
-import 'data/movieRDS.dart';
-import 'data/movieRM.dart';
-import 'data/mapper.dart';
+import '../../data/movieRDS.dart';
+import '../../data/movieRM.dart';
+import '../../data/mapper.dart';
 
-class MoviesList extends StatefulWidget{
+class MoviesListView extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
     return _MoviesList();
@@ -13,7 +13,7 @@ class MoviesList extends StatefulWidget{
 
 }
 
-class _MoviesList extends State<MoviesList>{
+class _MoviesList extends State<MoviesListView>{
   List<Movie> moviesVM = [];
 
   void _getMovies() async {
