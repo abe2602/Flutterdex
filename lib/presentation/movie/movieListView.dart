@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:state_navigation/presentation/movie/movieListBloc.dart';
 import 'movie.dart';
 import '../../data/movieRDS.dart';
 import '../../data/movieRM.dart';
@@ -14,29 +15,33 @@ class MoviesListView extends StatefulWidget{
 }
 
 class _MoviesList extends State<MoviesListView>{
-  List<Movie> moviesVM = [];
+  MovieListBloc movieListBloc;
+//  List<Movie> moviesVM = [];
 
-  void _getMovies() async {
-    final Stream<MovieRM> movies = await getMovies();
-    movies.listen( (MovieRM movie){
-      setState(() {
-        moviesVM.add(movie.toVM());
-      });
-    });
-  }
+//  void _getMovies() async {
+//    final Stream<MovieRM> movies = await getMovies();
+//    movies.listen( (MovieRM movie){
+//      setState(() {
+//        moviesVM.add(movie.toVM());
+//      });
+//    });
+//  }
 
   @override
   void initState() {
     super.initState();
-    _getMovies();
+    //_getMovies();
+    movieListBloc = MovieListBloc();
+    movieListBloc.getMovieList();
   }
-
+  //Colocar o stream builder aqui
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
+    return
+      GridView.count(
       crossAxisCount: 2,
       shrinkWrap: true, //vai ocupar os espaços que precisa e nada mais
-      children: List.generate(moviesVM.length, (index) =>  moviesVM[index]),
+      children: List.generate(movieListBloc.moviesVM.length, (index) =>  movieListBloc.moviesVM[index]),
     );
   }
 }
