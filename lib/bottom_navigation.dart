@@ -34,11 +34,11 @@ class BottomNavigation extends StatelessWidget{
     switch(tab){
       case TabItem.movies:
         currentIndex = 0;
-      break;
+        break;
 
       case TabItem.series:
         currentIndex = 1;
-          break;
+        break;
     }
 
     return currentIndex;
