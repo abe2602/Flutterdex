@@ -1,16 +1,20 @@
 import 'dart:convert';
 
+import 'package:http/http.dart' show Client, Response;
 import 'movieRM.dart';
-import 'package:http/http.dart' as http;
 
-Future<Stream<MovieRM>> getMovies() async {
+class MoviesProvider{
+  Client client = Client();
+  final _baseUrl = "https://desafio-mobile.nyc3.digitaloceanspaces.com/movies";
 
-  final client = new http.Client(); // cria nova instância do serviço
-  final streamedRest = await client.send(http.Request('get', Uri.parse("https://desafio-mobile.nyc3.digitaloceanspaces.com/movies"))); //manda o request para a URL
-
-  return streamedRest.stream
-      .transform(utf8.decoder)
-      .transform(json.decoder)
-      .expand((data) => (data as List))
-      .map((data) => MovieRM.fromJson(data));
+  Future<List<MovieRM>> getMovies() async {
+    List<MovieRM> moviesList = [];
+    Response response;
+    response = await client.get(_baseUrl);
+    print(response.body.length);
+    for(int i = 0; i < json.decode(response.body).toList().length; i++){
+      moviesList.add(MovieRM.fromJson(json.decode(response.body)[i]));
+    }
+    return moviesList;
+  }
 }
