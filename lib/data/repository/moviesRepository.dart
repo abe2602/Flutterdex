@@ -1,7 +1,8 @@
 import '../../data/remote/movieRDS.dart';
 
 class MoviesRepository{
-  MoviesProvider provider = MoviesProvider();
+  MoviesRDS provider = MoviesRDS();
 
   getMovies() => provider.getMovies();
+
 }

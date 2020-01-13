@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' show Client, Response;
 import '../model/movieRM.dart';
 
-class MoviesProvider{
+class MoviesRDS{
   Client client = Client();
   final _baseUrl = "https://desafio-mobile.nyc3.digitaloceanspaces.com/movies";
 

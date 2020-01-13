@@ -2,9 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:state_navigation/presentation/movie/movieListBloc.dart';
 import 'movie.dart';
-import '../../data/remote/movieRDS.dart';
-import '../../data/model/movieRM.dart';
-import '../../data/mapper.dart';
 
 class MoviesListView extends StatefulWidget{
   @override
