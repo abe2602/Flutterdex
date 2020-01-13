@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' show Client, Response;
-import 'movieRM.dart';
+import '../model/movieRM.dart';
 
 class MoviesProvider{
   Client client = Client();

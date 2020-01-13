@@ -1,4 +1,4 @@
-import 'movieRM.dart';
+import 'model/movieRM.dart';
 import '../presentation/movie/movie.dart';
 
 extension ToVM on MovieRM{

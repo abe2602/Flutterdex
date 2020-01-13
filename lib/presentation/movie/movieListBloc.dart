@@ -1,10 +1,9 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../data/movieRDS.dart';
-import '../../data/movieRM.dart';
 import '../../data/mapper.dart';
+import '../../data/model/movieRM.dart';
+import '../../data/repository/moviesRepository.dart';
 import 'movie.dart';
 
 /*
@@ -13,13 +12,13 @@ import 'movie.dart';
 * */
 class MovieListBloc extends BlocBase{
   List<MovieRM> _moviesVM = [];
-  MoviesProvider provider = MoviesProvider();
+  MoviesRepository repository = MoviesRepository();
+
   final _moviesFetcher = PublishSubject<List<Movie>>();
   Stream<List<Movie>> get allMovies => _moviesFetcher.stream;
 
-  
   void getMovieList() async{
-    _moviesVM = await provider.getMovies();
+    _moviesVM = await repository.getMovies();
     _moviesFetcher.sink.add((_moviesVM.map((movie) => movie.toVM())).toList());
   }
 
