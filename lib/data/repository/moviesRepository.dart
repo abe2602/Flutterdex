@@ -1,8 +1,11 @@
+import 'package:state_navigation/data/remote/movieDetailRDS.dart';
+
 import '../../data/remote/movieRDS.dart';
 
 class MoviesRepository{
-  MoviesRDS provider = MoviesRDS();
+  MoviesRDS movieListProvider = MoviesRDS();
+  MovieDetailRDS movieDetailProvider = MovieDetailRDS();
 
-  getMovies() => provider.getMovies();
-
+  getMoviesList() => movieListProvider.getMovies();
+  getMovieDetail(int id) => movieDetailProvider.getMovieDetail(id);
 }

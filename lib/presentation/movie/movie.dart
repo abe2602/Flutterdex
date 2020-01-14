@@ -16,7 +16,7 @@ class Movie extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       body: InkWell(
-        onTap: () => Navigator.of(context).push(CupertinoPageRoute(builder: (context) => MovieDetail(id: id)),),
+        onTap: () => Navigator.of(context).push(CupertinoPageRoute(builder: (context) => MovieDetailView(id: id)),),
         child: Center(
           child: Padding(
             padding: EdgeInsets.all(8.0),

@@ -23,7 +23,7 @@ class _MoviesList extends State<MoviesListView>{
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: movieListBloc.allMovies,
+      stream: movieListBloc.moviesListStream,
       builder: (context, AsyncSnapshot<List<Movie>> snapshot){
         if(snapshot.hasData)
           return movieGridLayout(snapshot.data);
