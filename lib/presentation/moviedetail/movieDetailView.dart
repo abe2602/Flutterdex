@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:state_navigation/presentation/moviedetail/movieDetailBloc.dart';
 
 import '../../data/remote/movieDetailRDS.dart';
+import '../common/viewUtils.dart';
 import 'movieDetail.dart';
 
 class MovieDetailView extends StatefulWidget{
@@ -41,7 +42,7 @@ class _MovieDetailStateView extends State<MovieDetailView>{
             return snapshot.data;
           }
           else{
-            return Text("");
+            return loadingWidget();
           }
         },
       )

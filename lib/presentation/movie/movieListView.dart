@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:state_navigation/presentation/movie/movieListBloc.dart';
 import 'movie.dart';
+import '../common/viewUtils.dart';
 
 class MoviesListView extends StatefulWidget{
   @override
@@ -28,7 +29,7 @@ class _MoviesList extends State<MoviesListView>{
         if(snapshot.hasData)
           return movieGridLayout(snapshot.data);
         else
-          return movieGridLayout([]);
+          return loadingWidget();
       },
     );
   }
@@ -36,7 +37,7 @@ class _MoviesList extends State<MoviesListView>{
   Widget movieGridLayout(List<Movie> movieList){
     return
       Scaffold(
-        appBar: AppBar(title: Text("Hey"),),
+        appBar: AppBar(title: Text("Movies"),),
         body: GridView.count(
           crossAxisCount: 2,
           shrinkWrap: true, //vai ocupar os espaços que precisa e nada mais
