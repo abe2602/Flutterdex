@@ -19,7 +19,7 @@ class _MoviesList extends State<MoviesListView>{
     super.initState();
     movieListBloc.getMovieList();
   }
-
+  //Cached LIst view pode resolver meus problemas!
   //Colocar o stream builder aqui
   @override
   Widget build(BuildContext context) {

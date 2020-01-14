@@ -41,6 +41,9 @@ class _MovieDetailStateView extends State<MovieDetailView>{
           if(snapshot.hasData){
             return snapshot.data;
           }
+          else if(snapshot.hasError){
+            return Text(snapshot.error.toString());
+          }
           else{
             return loadingWidget();
           }
