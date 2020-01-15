@@ -27,6 +27,7 @@ dependencies:
   cached_network_image: ^2.0.0-rc
   rxdart:
   bloc_pattern:
+  dio:
 
 dev_dependencies:
   flutter_test:
