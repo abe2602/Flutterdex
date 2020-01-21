@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'bottom_navigation.dart';
 import '../movie/movieListView.dart';
 
+/// SOBRE MODAL: para que um modal seja exibido, basta que o Navigator.push seja chamado
+/// da seguinte maneira:
+/// Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(builder: (context) => ROTA, fullscreenDialog: true),);
+
 class TabNavigatorRoutes {
   static const String root = '/';
 }

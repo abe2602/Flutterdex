@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:state_navigation/presentation/common/di.dart';
 import 'package:state_navigation/presentation/common/tab_navigatior.dart';
 
 import 'bottom_navigation.dart';
@@ -8,15 +10,32 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
+  callModal(BuildContext context, Widget widget){
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (BuildContext context, __, _) {
+          return Scaffold(
+            body: widget,
+          );
+        },
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Provider( //Possibilita a DI
+      builder: (context) => AppInfo(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MyHomePage(),
       ),
-      home: MyHomePage(),
     );
   }
 }
@@ -24,6 +43,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
+
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -32,7 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Map<TabItem, GlobalKey<NavigatorState>> _navigatorKeys = {
     TabItem.movies: GlobalKey<NavigatorState>(),
     TabItem.series: GlobalKey<NavigatorState>(),
-
   };
 
   void _selectTab(TabItem tabItem){

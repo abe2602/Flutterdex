@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:state_navigation/presentation/common/di.dart';
 import '../moviedetail/movieDetailView.dart';
+import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class Movie extends StatelessWidget{
@@ -16,7 +18,7 @@ class Movie extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       body: InkWell(
-        onTap: () => Navigator.of(context).push(CupertinoPageRoute(builder: (context) => MovieDetailView(id: id)),),
+        onTap: () => Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(builder: (context) => MovieDetailView(id: id), fullscreenDialog: true),),
         child: Center(
           child: Padding(
             padding: EdgeInsets.all(8.0),
