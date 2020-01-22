@@ -1,30 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:state_navigation/presentation/movie/movieListBloc.dart';
+import 'package:provider/provider.dart';
 import 'movie.dart';
 import '../common/viewUtils.dart';
+import 'package:state_navigation/presentation/common/di.dart';
 
 class MoviesListView extends StatefulWidget{
+
   @override
-  State<StatefulWidget> createState() {
-    return _MoviesList();
-  }
+  State<StatefulWidget> createState() => _MoviesList();
+
 }
 
 class _MoviesList extends State<MoviesListView>{
-  MovieListBloc movieListBloc = MovieListBloc();
 
   @override
-  void initState() {
-    super.initState();
-    movieListBloc.getMovieList();
-  }
-  //Cached LIst view pode resolver meus problemas!
-  //Colocar o stream builder aqui
-  @override
   Widget build(BuildContext context) {
+    var diProvider = Provider.of<ApplicationDI>(context);
+    diProvider.movieListBloc.getMovieList();
+
     return StreamBuilder(
-      stream: movieListBloc.moviesListStream,
+      stream: diProvider.movieListBloc.moviesListStream,
       builder: (context, AsyncSnapshot<List<Movie>> snapshot){
         if(snapshot.hasData)
           return movieGridLayout(snapshot.data);

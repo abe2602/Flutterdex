@@ -1,5 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:state_navigation/presentation/common/locator.dart';
 
 import '../../data/repository/moviesRepository.dart';
 import 'movie.dart';
@@ -10,18 +11,17 @@ import 'movie.dart';
 * */
 class MovieListBloc extends BlocBase{
   List<Movie> _moviesVM = [];
-  MoviesRepository repository = MoviesRepository();
-
   final _moviesListPublishSubject = PublishSubject<List<Movie>>();
   Stream<List<Movie>> get moviesListStream => _moviesListPublishSubject.stream;
 
   void getMovieList() async{
-    _moviesVM = await repository.getMoviesList();
+    _moviesVM = await locator<MoviesRepository>().getMoviesList();
     _moviesListPublishSubject.sink.add((_moviesVM));
   }
 
   @override
   void dispose() {
+    locator.unregister<MoviesRepository>();
     _moviesListPublishSubject.close();
     super.dispose();
   }
