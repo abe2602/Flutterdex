@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'bottom_navigation.dart';
-import '../movie/movieListView.dart';
+import '../../../app/presentation/common/bottom_navigation.dart';
+import '../../../app/presentation/movie/movieListView.dart';
 
 /// SOBRE MODAL: para que um modal seja exibido, basta que o Navigator.push seja chamado
 /// da seguinte maneira:

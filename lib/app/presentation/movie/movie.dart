@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:state_navigation/presentation/common/di.dart';
-import '../moviedetail/movieDetailView.dart';
-import 'package:provider/provider.dart';
+import '../../presentation/moviedetail/movieDetailView.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class Movie extends StatelessWidget{

@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:state_navigation/presentation/common/di.dart';
-import 'package:state_navigation/presentation/common/locator.dart';
-import 'package:state_navigation/presentation/common/tab_navigatior.dart';
+import 'package:state_navigation/app/presentation/common/di.dart';
+import 'package:state_navigation/app/presentation/common/locator.dart';
+import 'package:state_navigation/app/presentation/common/tab_navigatior.dart';
 
-import 'bottom_navigation.dart';
+import '../../../app/presentation/common/bottom_navigation.dart';
 
 void main(){
   setupLocator();

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../presentation/common/di.dart';
-import '../common/viewUtils.dart';
-import 'movieDetail.dart';
+import '../../../app/presentation/common/di.dart';
+import '../../../app/presentation/common/viewUtils.dart';
+import '../../../app/presentation/moviedetail/movieDetail.dart';
 
 class MovieDetailView extends StatefulWidget{
   final int id;

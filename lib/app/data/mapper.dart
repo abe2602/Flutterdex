@@ -1,8 +1,8 @@
-import 'model/movieRM.dart';
-import '../presentation/movie/movie.dart';
+import '../../app/data/model/movieRM.dart';
+import '../../app/presentation/movie/movie.dart';
 
-import 'model/movieDetailRM.dart';
-import '../presentation/moviedetail/movieDetail.dart';
+import '../../app/data/model/movieDetailRM.dart';
+import '../../app/presentation/moviedetail/movieDetail.dart';
 
 extension MovieToVM on MovieRM{
   Movie toVM(){

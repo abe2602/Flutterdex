@@ -1,9 +1,9 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:state_navigation/presentation/common/locator.dart';
+import 'package:state_navigation/app/presentation/common/locator.dart';
 
-import 'package:state_navigation/presentation/moviedetail/movieDetail.dart';
-import '../../data/repository/moviesRepository.dart';
+import 'package:state_navigation/app/presentation/moviedetail/movieDetail.dart';
+import 'package:state_navigation/domain/usecase/GetMovieDetailsUC.dart';
 
 class MovieDetailBloc extends BlocBase{
 
@@ -11,13 +11,13 @@ class MovieDetailBloc extends BlocBase{
   Stream<MovieDetail> get movieDetailStream => _movieDetailPublishSubject.stream;
 
   getMovieDetail(int id) async{
-    MovieDetail movieDetail = await locator<MoviesRepository>().getMovieDetail(id);
+    MovieDetail movieDetail = await locator<GetMovieDetailsUC>().call(Params(id: id));
     _movieDetailPublishSubject.sink.add(movieDetail);
   }
 
   @override
   void dispose() {
-    locator.unregister<MoviesRepository>();
+    locator.unregister<GetMovieDetailsUC>();
     _movieDetailPublishSubject.close();
     super.dispose();
   }

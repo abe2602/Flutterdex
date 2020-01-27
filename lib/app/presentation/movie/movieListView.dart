@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'movie.dart';
 import '../common/viewUtils.dart';
-import 'package:state_navigation/presentation/common/di.dart';
+import 'package:state_navigation/app/presentation/common/di.dart';
 
 class MoviesListView extends StatefulWidget{
 

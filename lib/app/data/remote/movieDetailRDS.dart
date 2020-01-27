@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' show Client, Response;
-import 'package:state_navigation/data/model/movieDetailRM.dart';
-import 'package:state_navigation/presentation/moviedetail/movieDetail.dart';
+import 'package:state_navigation/app/data/model/movieDetailRM.dart';
+import 'package:state_navigation/app/presentation/moviedetail/movieDetail.dart';
 import '../../data/mapper.dart';
 
 class MovieDetailRDS{
