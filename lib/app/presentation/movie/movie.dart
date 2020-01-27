@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../../presentation/moviedetail/movieDetailView.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class Movie extends StatelessWidget{
+class MovieVM extends StatelessWidget{
   final int id;
   final String url;
 
-  const Movie({Key key, @required this.id, this.url}) :
+  const MovieVM({Key key, @required this.id, this.url}) :
         assert(id != null),
         assert(url != null),
         super(key: key);

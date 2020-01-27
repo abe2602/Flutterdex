@@ -29,7 +29,7 @@ class _MovieDetailStateView extends State<MovieDetailView>{
       ),
       body: StreamBuilder(
         stream: provider.movieDetailBloc.movieDetailStream,
-        builder: (context, AsyncSnapshot<MovieDetail> snapshot){
+        builder: (context, AsyncSnapshot<MovieDetailVM> snapshot){
           if(snapshot.hasData){
             return snapshot.data;
           }

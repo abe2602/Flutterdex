@@ -21,7 +21,7 @@ class _MoviesList extends State<MoviesListView>{
 
     return StreamBuilder(
       stream: diProvider.movieListBloc.moviesListStream,
-      builder: (context, AsyncSnapshot<List<Movie>> snapshot){
+      builder: (context, AsyncSnapshot<List<MovieVM>> snapshot){
         if(snapshot.hasData)
           return movieGridLayout(snapshot.data);
         else
@@ -30,7 +30,7 @@ class _MoviesList extends State<MoviesListView>{
     );
   }
 
-  Widget movieGridLayout(List<Movie> movieList){
+  Widget movieGridLayout(List<MovieVM> movieList){
     return
       Scaffold(
         appBar: AppBar(title: Text("Movies"),),

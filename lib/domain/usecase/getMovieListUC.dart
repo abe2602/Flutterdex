@@ -1,4 +1,4 @@
-import 'package:state_navigation/domain/data/MovieRepositoryDataSource.dart';
+import 'package:state_navigation/domain/data/movieRepositoryDataSource.dart';
 import 'package:state_navigation/domain/usecase/baseUseCase.dart';
 
 class GetMovieListUC extends BaseUseCase{

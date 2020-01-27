@@ -1,17 +1,14 @@
 import '../../app/data/model/movieRM.dart';
-import '../../app/presentation/movie/movie.dart';
+import 'package:state_navigation/domain/model/movie.dart';
 
 import '../../app/data/model/movieDetailRM.dart';
-import '../../app/presentation/moviedetail/movieDetail.dart';
+import 'package:state_navigation/domain/model/movieDetail.dart';
 
-extension MovieToVM on MovieRM{
-  Movie toVM(){
-    return Movie(id: this.id, url: this.url);
-  }
+extension MovieRMToDM on MovieRM{
+  Movie toDM() => Movie(id: this.id, url: this.url);
 }
 
-extension MovieDetailToVM on MovieDetailRM{
-  MovieDetail toVM(){
-    return MovieDetail(id: this.id, url: this.url, date: this.date, voteAverage: this.voteAverage, title: this.title);
-  }
+extension MovieDetailRMToDM on MovieDetailRM{
+  MovieDetail toDM() => MovieDetail(id: this.id, url: this.url, date: this.date, voteAverage: this.voteAverage, title: this.title);
+
 }

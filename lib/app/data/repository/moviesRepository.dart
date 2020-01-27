@@ -1,5 +1,5 @@
 import 'package:state_navigation/app/data/remote/movieDetailRDS.dart';
-import 'package:state_navigation/domain/data/MovieRepositoryDataSource.dart';
+import 'package:state_navigation/domain/data/movieRepositoryDataSource.dart';
 
 import '../../data/remote/movieRDS.dart';
 

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class MovieDetail extends StatelessWidget{
+class MovieDetailVM extends StatelessWidget{
   final int id;
   final double voteAverage;
   final String title;
   final String url;
   final String date;
 
-  const MovieDetail({Key key, @required this.id, @required this.voteAverage, @required this.title, @required this.url, @required this.date}) :
+  const MovieDetailVM({Key key, @required this.id, @required this.voteAverage, @required this.title, @required this.url, @required this.date}) :
         assert(id != null),
         assert(voteAverage != null),
         assert(title != null),

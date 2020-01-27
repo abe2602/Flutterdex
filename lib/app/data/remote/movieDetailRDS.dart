@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' show Client, Response;
 import 'package:state_navigation/app/data/model/movieDetailRM.dart';
-import 'package:state_navigation/app/presentation/moviedetail/movieDetail.dart';
+import 'package:state_navigation/domain/model/movieDetail.dart';
 import '../../data/mapper.dart';
 
 class MovieDetailRDS{
@@ -13,6 +13,6 @@ class MovieDetailRDS{
     Response response;
     response = await client.get("$_baseUrl$id");
 
-    return MovieDetailRM.fromJson(json.decode(response.body)).toVM();
+    return MovieDetailRM.fromJson(json.decode(response.body)).toDM();
   }
 }
