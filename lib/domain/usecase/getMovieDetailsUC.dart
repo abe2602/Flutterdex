@@ -1,13 +1,14 @@
 import 'package:state_navigation/domain/data/movieRepositoryDataSource.dart';
+import 'package:state_navigation/domain/model/movieDetail.dart';
 import 'package:state_navigation/domain/usecase/baseUseCase.dart';
 
-class GetMovieDetailsUC extends BaseUseCase{
+class GetMovieDetailsUC implements BaseUseCase<MovieDetail, Params>{
   final MovieRepositoryDataSource movieRepository;
 
   GetMovieDetailsUC(this.movieRepository);
-  
+
   @override
-  Future call(params) async => movieRepository.getMovieDetail(params.id);
+  Future<MovieDetail> call(Params params) => movieRepository.getMovieDetail(params.id);
 
 }
 

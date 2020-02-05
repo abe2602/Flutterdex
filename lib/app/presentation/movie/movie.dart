@@ -16,7 +16,7 @@ class MovieVM extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       body: InkWell(
-        onTap: () => Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(builder: (context) => MovieDetailView(id: id), fullscreenDialog: true),),
+        onTap: () => Navigator.of(context).push(CupertinoPageRoute(builder: (context) => new MovieDetailView(id: id)),),
         child: Center(
           child: Padding(
             padding: EdgeInsets.all(8.0),

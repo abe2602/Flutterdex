@@ -1,19 +1,26 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' show Client, Response;
+import 'package:connectivity/connectivity.dart';
+import 'package:state_navigation/app/data/remote/baseRDS.dart';
+import 'package:state_navigation/domain/error/error.dart';
 import 'package:state_navigation/domain/model/movie.dart';
 
 import '../../data/mapper.dart';
 import '../model/movieRM.dart';
 
-class MoviesRDS{
-  Client client = Client();
-  final _baseUrl = "https://desafio-mobile.nyc3.digitaloceanspaces.com/movies";
-
+class MoviesRDS extends BaseRDS{
   Future<List<Movie>> getMovies() async {
-    Response response;
-    response = await client.get(_baseUrl);
+    connectivityResult= await (Connectivity().checkConnectivity());
 
-    return Future<List<Movie>>.value(List<MovieRM>.from(json.decode(response.body).map((i) => MovieRM.fromJson(i))).map((movieRM) => movieRM.toDM()).toList());
+    if(connectivityResult == ConnectivityResult.none){
+      return Future.error(NetworkError());
+    }else{
+      response = await client.get(baseUrl);
+      if(response.statusCode == 200 )
+        return List<MovieRM>.from(json.decode(response.body).map((i) =>
+            MovieRM.fromJson(i))).map((movieRM) => movieRM.toDM()).toList();
+      else
+        return Future.error(Exception("Deu RUim"));
+    }
   }
 }

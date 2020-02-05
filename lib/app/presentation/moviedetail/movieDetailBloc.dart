@@ -12,9 +12,14 @@ class MovieDetailBloc extends BlocBase{
   Stream<MovieDetailVM> get movieDetailStream => _movieDetailPublishSubject.stream;
 
   getMovieDetail(int id) async{
-    MovieDetailVM movieDetail = await locator<GetMovieDetailsUC>().call(Params(id: id)).then((movieDetail) => toVM(movieDetail));
-    _movieDetailPublishSubject.sink.add(movieDetail);
+    await locator<GetMovieDetailsUC>()
+        .call(Params(id: id))
+        .then((movieDetail) =>
+        _movieDetailPublishSubject.sink.add(toVM(movieDetail)))
+        .catchError((error) => _movieDetailPublishSubject.addError(error));
   }
+
+  void callLoading() => _movieDetailPublishSubject.sink.add(null);
 
   @override
   void dispose() {

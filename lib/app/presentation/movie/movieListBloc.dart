@@ -14,12 +14,17 @@ class MovieListBloc extends BlocBase{
   final _moviesListPublishSubject = PublishSubject<List<MovieVM>>();
   Stream<List<MovieVM>> get moviesListStream => _moviesListPublishSubject.stream;
 
-  void getMovieList() async{
-    var moviesVM = await locator<GetMovieListUC>().call(Params())
-        .then((movieList) => List<MovieVM>.from(movieList.map((movie) => toVM(movie))));
+  void getMovieList() async {
 
-    _moviesListPublishSubject.sink.add(moviesVM);
+    await locator<GetMovieListUC>().call(Params())
+        .then((movieList) {
+          var moviesVM = List<MovieVM>.from(movieList.map((movie) => toVM(movie)));
+          _moviesListPublishSubject.sink.add(moviesVM);
+        })
+        .catchError((error) => _moviesListPublishSubject.sink.addError(error));
   }
+
+  void callLoading() => _moviesListPublishSubject.sink.add(null);
 
   @override
   void dispose() {

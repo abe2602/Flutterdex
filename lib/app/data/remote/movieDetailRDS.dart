@@ -1,18 +1,26 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' show Client, Response;
+import 'package:connectivity/connectivity.dart';
 import 'package:state_navigation/app/data/model/movieDetailRM.dart';
+import 'package:state_navigation/app/data/remote/baseRDS.dart';
+import 'package:state_navigation/domain/error/error.dart';
 import 'package:state_navigation/domain/model/movieDetail.dart';
+
 import '../../data/mapper.dart';
 
-class MovieDetailRDS{
-  Client client = Client();
-  var _baseUrl = "https://desafio-mobile.nyc3.digitaloceanspaces.com/movies/";
+class MovieDetailRDS extends BaseRDS{
 
   Future<MovieDetail> getMovieDetail(int id) async {
-    Response response;
-    response = await client.get("$_baseUrl$id");
+    connectivityResult= await (Connectivity().checkConnectivity());
 
-    return MovieDetailRM.fromJson(json.decode(response.body)).toDM();
+    if(connectivityResult == ConnectivityResult.none){
+      return Future.error(NetworkError());
+    }else{
+      response = await client.get("$baseUrl/$id");
+      if(response.statusCode == 200)
+        return MovieDetailRM.fromJson(json.decode(response.body)).toDM();
+      else
+        return Future.error(Exception("Deu ruim"));
+    }
   }
 }

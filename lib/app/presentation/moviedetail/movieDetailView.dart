@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../app/presentation/common/di.dart';
+import 'package:state_navigation/app/presentation/moviedetail/movieDetailBloc.dart';
+import 'package:state_navigation/domain/error/error.dart';
 import '../../../app/presentation/common/viewUtils.dart';
 import '../../../app/presentation/moviedetail/movieDetail.dart';
 
@@ -16,29 +16,40 @@ class MovieDetailView extends StatefulWidget{
 
 class _MovieDetailStateView extends State<MovieDetailView>{
   int id;
+  MovieDetailBloc movieDetailBloc;
+
   _MovieDetailStateView({this.id});
 
   @override
+  void initState() {
+    movieDetailBloc = MovieDetailBloc();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<ApplicationDI>(context);
-    provider.movieDetailBloc.getMovieDetail(id);
+    movieDetailBloc.getMovieDetail(id);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Detalhes"),
-      ),
+      appBar: AppBar(title: Text("Detalhes"),),
       body: StreamBuilder(
-        stream: provider.movieDetailBloc.movieDetailStream,
+        stream: movieDetailBloc.movieDetailStream,
         builder: (context, AsyncSnapshot<MovieDetailVM> snapshot){
-          if(snapshot.hasData){
+          if(snapshot.hasData  && snapshot.data == null)
+            return Scaffold(
+              appBar: AppBar(title: Text("Detalhes"),),
+              body: loadingWidget(),);
+          if(snapshot.hasData)
             return snapshot.data;
+          if(snapshot.hasError){
+            if(snapshot.error is NetworkError)
+              return internetEmptyState((){
+                movieDetailBloc.callLoading();
+                movieDetailBloc.getMovieDetail(id);
+              });
+            else return Text(snapshot.error.toString());
           }
-          else if(snapshot.hasError){
-            return Text(snapshot.error.toString());
-          }
-          else{
-            return loadingWidget();
-          }
+          else return loadingWidget();
         },
       ),
     );

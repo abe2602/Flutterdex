@@ -18,23 +18,21 @@ class MovieDetailVM extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.only(top: 100),
-              child: Column(
-                children: <Widget>[
-                  CachedNetworkImage(
-                    imageUrl: url,
-                    placeholder: (context, url) => new CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => new Icon(Icons.error),
-                  ),
-                  Text(title),
-                ],
-              ),
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.only(top: 100),
+            child: Column(
+              children: <Widget>[
+                CachedNetworkImage(
+                  imageUrl: url,
+                  placeholder: (context, url) => new CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => new Icon(Icons.error),
+                ),
+                Text(title),
+              ],
             ),
           ),
         ),
