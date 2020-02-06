@@ -1,12 +1,8 @@
 class MovieRM{
   int id;
-  double voteAverage;
-  String title;
   String url;
-  List<String> genres;
-  String date;
 
-  MovieRM({this.id, this.voteAverage, this.title, this.url, this.genres, this.date});
+  MovieRM({this.id, this.url});
 
   factory MovieRM.fromJson(Map<String, dynamic> parsedJson){
     return MovieRM(

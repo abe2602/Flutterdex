@@ -13,7 +13,7 @@ class MoviesRDS extends BaseRDS{
     connectivityResult= await (Connectivity().checkConnectivity());
 
     if(connectivityResult == ConnectivityResult.none){
-      return Future.error(NetworkError());
+      throw NetworkError();
     }else{
       response = await client.get(baseUrl);
       if(response.statusCode == 200 )

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:state_navigation/app/data/cache/cacheDataSource.dart';
 import 'package:state_navigation/domain/usecase/getMovieDetailsUC.dart';
 import 'package:state_navigation/domain/usecase/getMovieListUC.dart';
 import '../../data/repository/moviesRepository.dart';
@@ -11,7 +12,8 @@ void setupLocator() {
   //Repositórios
   locator.registerLazySingleton(() => MoviesRDS());
   locator.registerLazySingleton(() => MovieDetailRDS());
-  locator.registerLazySingleton(() => MoviesRepository(locator<MovieDetailRDS>(), locator<MoviesRDS>()));
+  locator.registerLazySingleton(() => CacheDataSource());
+  locator.registerLazySingleton(() => MoviesRepository(locator<MovieDetailRDS>(), locator<MoviesRDS>(), locator<CacheDataSource>()));
 
   //Use Cases
   locator.registerFactory(() => GetMovieDetailsUC(locator<MoviesRepository>()));

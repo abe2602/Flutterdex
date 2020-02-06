@@ -18,8 +18,11 @@ class MovieListBloc extends BlocBase{
 
     await locator<GetMovieListUC>().call(Params())
         .then((movieList) {
-          var moviesVM = List<MovieVM>.from(movieList.map((movie) => toVM(movie)));
-          _moviesListPublishSubject.sink.add(moviesVM);
+          if(movieList != null) {
+            var moviesVM = List<MovieVM>.from(
+                movieList.map((movie) => toVM(movie)));
+            _moviesListPublishSubject.sink.add(moviesVM);
+          }
         })
         .catchError((error) => _moviesListPublishSubject.sink.addError(error));
   }
