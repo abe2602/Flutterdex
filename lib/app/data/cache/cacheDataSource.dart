@@ -1,5 +1,4 @@
-import 'package:hive/hive.dart';
+import 'package:state_navigation/app/data/cache/movieCM.dart';
+import 'package:state_navigation/app/data/cache/baseCacheDataSource.dart';
 
-class CacheDataSource {
-  Future<Box> getHiveBox() async => Hive.openBox("movieList");
-}
+class CacheDataSource extends BaseCacheDataSource<MovieCM>{}

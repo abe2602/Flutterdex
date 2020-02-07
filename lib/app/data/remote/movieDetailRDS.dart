@@ -11,16 +11,16 @@ import '../../data/mapper.dart';
 class MovieDetailRDS extends BaseRDS{
 
   Future<MovieDetail> getMovieDetail(int id) async {
-    connectivityResult= await (Connectivity().checkConnectivity());
+    connectivityResult = await (Connectivity().checkConnectivity());
 
     if(connectivityResult == ConnectivityResult.none){
-      return Future.error(NetworkError());
+      return throw NetworkException();
     }else{
       response = await client.get("$baseUrl/$id");
       if(response.statusCode == 200)
         return MovieDetailRM.fromJson(json.decode(response.body)).toDM();
       else
-        return Future.error(Exception("Deu ruim"));
+        throw Exception(response.statusCode.toString());
     }
   }
 }

@@ -42,7 +42,7 @@ class _MovieDetailStateView extends State<MovieDetailView>{
           if(snapshot.hasData)
             return snapshot.data;
           if(snapshot.hasError){
-            if(snapshot.error is NetworkError)
+            if(snapshot.error is NetworkException)
               return internetEmptyState((){
                 movieDetailBloc.callLoading();
                 movieDetailBloc.getMovieDetail(id);

@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:state_navigation/app/data/cache/cacheDataSource.dart';
 import 'package:state_navigation/app/data/cache/movieCM.dart';
+import 'package:state_navigation/app/data/cache/baseCacheDataSource.dart';
 import 'package:state_navigation/app/data/remote/movieDetailRDS.dart';
 import 'package:state_navigation/domain/data/movieRepositoryDataSource.dart';
 import 'package:state_navigation/domain/error/error.dart';
@@ -10,7 +11,7 @@ import 'package:state_navigation/domain/model/movieDetail.dart';
 import '../../data/mapper.dart';
 import '../../data/remote/movieRDS.dart';
 
-class MoviesRepository extends MovieRepositoryDataSource {
+class MoviesRepository extends MovieRepositoryDataSource{
 
   MoviesRDS movieListProvider;
   MovieDetailRDS movieDetailProvider;
@@ -23,20 +24,21 @@ class MoviesRepository extends MovieRepositoryDataSource {
   }
 
   Future<List<Movie>> getMoviesList() async {
-    try {
-      return await movieListProvider.getMovies().then((movieList) {
-        hiveBox.put("moviesList", movieList.map((movie) => movie.toCM()).toList());
-        return movieList;
-      });
-    } catch (response) {
-      if (response is NetworkError)
-        return cacheDataSource.getHiveBox().then((box) =>
-            box.get("moviesList"))
-            .then((list) => Future.value(list.cast<MovieCM>()
-              .map((movieCM) => Movie(id: movieCM.id, url: movieCM.url))
-              .toList().cast<Movie>()));
-      return Future.error(response);
-    }
+    return await movieListProvider.getMovies().then((movieList) {
+      cacheDataSource.write(hiveBox, list: movieList.map((movie) => movie.toCM()).toList());
+      return movieList;
+    }).catchError((response){
+      if(response is NetworkException)
+          return cacheDataSource.getHiveBox()
+            .then((box) => cacheDataSource.readList(box))
+            .then((list) => list.map((movieCM) => movieCM.toDM()).toList()).catchError((error) {
+              if(error is CacheException)
+                throw response;
+              else
+                throw error;
+          });
+      else throw response;
+    });
   }
 
   Future<MovieDetail> getMovieDetail(int id) => movieDetailProvider.getMovieDetail(id);

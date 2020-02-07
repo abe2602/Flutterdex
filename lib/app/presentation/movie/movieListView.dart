@@ -38,7 +38,7 @@ class _MoviesList extends State<MoviesListView>{
             if(snapshot.hasData)
               return movieGridLayout(snapshot.data);
             if(snapshot.hasError){
-              if(snapshot.error is NetworkError)
+              if(snapshot.error is NetworkException)
                 return internetEmptyState((){
                   movieListBloc.callLoading();
                   movieListBloc.getMovieList();
