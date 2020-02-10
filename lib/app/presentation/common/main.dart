@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider( //Possibilita a DI COM contexto
+    return Provider(
       create: (BuildContext context) => ApplicationDI(),
       child: MaterialApp(
         title: 'Flutter Demo',

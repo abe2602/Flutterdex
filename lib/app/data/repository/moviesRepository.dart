@@ -1,7 +1,5 @@
 import 'package:hive/hive.dart';
 import 'package:state_navigation/app/data/cache/cacheDataSource.dart';
-import 'package:state_navigation/app/data/cache/movieCM.dart';
-import 'package:state_navigation/app/data/cache/baseCacheDataSource.dart';
 import 'package:state_navigation/app/data/remote/movieDetailRDS.dart';
 import 'package:state_navigation/domain/data/movieRepositoryDataSource.dart';
 import 'package:state_navigation/domain/error/error.dart';
@@ -11,15 +9,14 @@ import 'package:state_navigation/domain/model/movieDetail.dart';
 import '../../data/mapper.dart';
 import '../../data/remote/movieRDS.dart';
 
-class MoviesRepository extends MovieRepositoryDataSource{
-
+class MoviesRepository extends MovieRepositoryDataSource {
   MoviesRDS movieListProvider;
   MovieDetailRDS movieDetailProvider;
   CacheDataSource cacheDataSource;
   Box hiveBox;
 
-  MoviesRepository(this.movieDetailProvider, this.movieListProvider,
-      this.cacheDataSource) {
+  MoviesRepository(
+      this.movieDetailProvider, this.movieListProvider, this.cacheDataSource) {
     cacheDataSource.getHiveBox().then((box) => hiveBox = box);
   }
 
@@ -27,20 +24,23 @@ class MoviesRepository extends MovieRepositoryDataSource{
     return await movieListProvider.getMovies().then((movieList) {
       cacheDataSource.write(hiveBox, list: movieList.map((movie) => movie.toCM()).toList());
       return movieList;
-    }).catchError((response){
-      if(response is NetworkException)
-          return cacheDataSource.getHiveBox()
+    }).catchError((response) {
+      if (response is NetworkException)
+        return cacheDataSource
+            .getHiveBox()
             .then((box) => cacheDataSource.readList(box))
-            .then((list) => list.map((movieCM) => movieCM.toDM()).toList()).catchError((error) {
-              if(error is CacheException)
-                throw response;
-              else
-                throw error;
-          });
-      else throw response;
+            .then((list) => list.map((movieCM) => movieCM.toDM()).toList())
+            .catchError((error) {
+          if (error is CacheException)
+            throw response;
+          else
+            throw error;
+        });
+      else
+        throw response;
     });
   }
 
-  Future<MovieDetail> getMovieDetail(int id) => movieDetailProvider.getMovieDetail(id);
-
+  Future<MovieDetail> getMovieDetail(int id) =>
+      movieDetailProvider.getMovieDetail(id);
 }

@@ -10,21 +10,20 @@ import 'movieMappers.dart';
 * Colocar uma stream com a listagem!
 * É como um Observable que pega do data e, quando a view pede, envia a listagem
 * */
-class MovieListBloc extends BlocBase{
+class MovieListBloc extends BlocBase {
   final _moviesListPublishSubject = PublishSubject<List<MovieVM>>();
-  Stream<List<MovieVM>> get moviesListStream => _moviesListPublishSubject.stream;
 
-  void getMovieList() async {
+  Stream<List<MovieVM>> get moviesListStream =>
+      _moviesListPublishSubject.stream;
 
-    await locator<GetMovieListUC>().call(Params())
-        .then((movieList) {
-          if(movieList != null) {
-            var moviesVM = List<MovieVM>.from(
-                movieList.map((movie) => toVM(movie)));
-            _moviesListPublishSubject.sink.add(moviesVM);
-          }
-        })
-        .catchError((error) => _moviesListPublishSubject.sink.addError(error));
+  void getMovieList() {
+    locator<GetMovieListUC>().call(Params()).then((movieList) {
+      if (movieList != null) {
+        var moviesVM =
+            List<MovieVM>.from(movieList.map((movie) => toVM(movie)));
+        _moviesListPublishSubject.sink.add(moviesVM);
+      }
+    }).catchError((error) => _moviesListPublishSubject.sink.addError(error));
   }
 
   void callLoading() => _moviesListPublishSubject.sink.add(null);
