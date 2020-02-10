@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-enum TabItem{ movies, series }
+enum TabItem { movies, series }
 
 Map<TabItem, String> tabName = {
   TabItem.movies: 'movies',
   TabItem.series: 'series',
 };
 
-class BottomNavigation extends StatelessWidget{
+class BottomNavigation extends StatelessWidget {
   final ValueChanged<TabItem> onSelectTab; //avisa qual tab foi selecionada
   final TabItem currentTab;
   final int currentIndex = 0;
+
   BottomNavigation({this.currentTab, this.onSelectTab}); //construtor
 
   @override
@@ -22,16 +23,18 @@ class BottomNavigation extends StatelessWidget{
         _buildItem(icon: Icon(Icons.movie_filter), tabItem: TabItem.series),
       ],
       onTap: (index) {
-        onSelectTab(TabItem.values[index],);
+        onSelectTab(
+          TabItem.values[index],
+        );
       },
       currentIndex: _getBottomNavigationItem(currentTab),
     );
   }
 
-  int _getBottomNavigationItem(TabItem tab){
+  int _getBottomNavigationItem(TabItem tab) {
     int currentIndex = 0;
 
-    switch(tab){
+    switch (tab) {
       case TabItem.movies:
         currentIndex = 0;
         break;
@@ -44,13 +47,13 @@ class BottomNavigation extends StatelessWidget{
     return currentIndex;
   }
 
-  BottomNavigationBarItem _buildItem({TabItem tabItem, Icon icon}){
+  BottomNavigationBarItem _buildItem({TabItem tabItem, Icon icon}) {
     return BottomNavigationBarItem(
       icon: icon,
       title: Text(
         tabName[tabItem],
         style: TextStyle(
-          color: currentTab == tabItem? Colors.blue: Colors.grey,
+          color: currentTab == tabItem ? Colors.blue : Colors.grey,
         ),
       ),
     );

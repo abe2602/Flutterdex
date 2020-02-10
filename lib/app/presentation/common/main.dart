@@ -10,7 +10,7 @@ import 'package:state_navigation/app/presentation/common/tab_navigatior.dart';
 
 import '../../../app/presentation/common/bottom_navigation.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
@@ -20,7 +20,6 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Provider(
@@ -40,7 +39,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
-
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -51,14 +49,15 @@ class _MyHomePageState extends State<MyHomePage> {
     TabItem.series: GlobalKey<NavigatorState>(),
   };
 
-  void _selectTab(TabItem tabItem){
+  void _selectTab(TabItem tabItem) {
     setState(() => _currentTab = tabItem);
   }
 
   //Serve para esconder as tabs que não são as atuais
-  Widget _buildOffStageNavigator(TabItem tabItem){
+  Widget _buildOffStageNavigator(TabItem tabItem) {
     return Offstage(
-      offstage: _currentTab != tabItem, //se for false, adiciona o widget na árvore
+      offstage: _currentTab != tabItem,
+      //se for false, adiciona o widget na árvore
       child: TabNavigator(
         navigatorKey: _navigatorKeys[tabItem],
         tabItem: tabItem,
@@ -69,10 +68,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()  async {
+      onWillPop: () async {
         return !await _navigatorKeys[_currentTab].currentState.maybePop();
       },
-
       child: Scaffold(
         body: SafeArea(
           child: Stack(

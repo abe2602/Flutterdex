@@ -5,5 +5,6 @@ class MovieDetail {
   final String url;
   final String date;
 
-  const MovieDetail ({this.id, this.voteAverage, this.title, this.url,  this.date});
+  const MovieDetail(
+      {this.id, this.voteAverage, this.title, this.url, this.date});
 }

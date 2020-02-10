@@ -22,7 +22,8 @@ class MoviesRepository extends MovieRepositoryDataSource {
 
   Future<List<Movie>> getMoviesList() async {
     return await movieListProvider.getMovies().then((movieList) {
-      cacheDataSource.write(hiveBox, list: movieList.map((movie) => movie.toCM()).toList());
+      cacheDataSource.write(hiveBox,
+          list: movieList.map((movie) => movie.toCM()).toList());
       return movieList;
     }).catchError((response) {
       if (response is NetworkException)

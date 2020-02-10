@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget loadingWidget(){
+Widget loading(){
   return Center(child: CircularProgressIndicator());
 }
 

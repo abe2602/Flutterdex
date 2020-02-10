@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class MovieDetailVM extends StatelessWidget{
+class MovieDetailVM extends StatelessWidget {
   final int id;
   final double voteAverage;
   final String title;
   final String url;
   final String date;
 
-  const MovieDetailVM({Key key, @required this.id, @required this.voteAverage, @required this.title, @required this.url, @required this.date}) :
-        assert(id != null),
+  const MovieDetailVM(
+      {Key key,
+      @required this.id,
+      @required this.voteAverage,
+      @required this.title,
+      @required this.url,
+      @required this.date})
+      : assert(id != null),
         assert(voteAverage != null),
         assert(title != null),
         assert(date != null),
@@ -28,7 +34,8 @@ class MovieDetailVM extends StatelessWidget{
               children: <Widget>[
                 CachedNetworkImage(
                   imageUrl: url,
-                  placeholder: (context, url) => new CircularProgressIndicator(),
+                  placeholder: (context, url) =>
+                      new CircularProgressIndicator(),
                   errorWidget: (context, url, error) => new Icon(Icons.error),
                 ),
                 Text(title),

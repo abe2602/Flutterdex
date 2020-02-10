@@ -15,16 +15,17 @@ class TabNavigatorRoutes {
 //Associa o nome com a tab (recebe como parâmetro a key do navegador e uma tabItem)
 class TabNavigator extends StatelessWidget {
   TabNavigator({this.navigatorKey, this.tabItem});
+
   final GlobalKey<NavigatorState> navigatorKey;
   final TabItem tabItem;
 
   //Retorna os widgets possíveis na navegação
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context) {
     return {
-      TabNavigatorRoutes.root: (context){
-        if(tabItem == TabItem.movies){
+      TabNavigatorRoutes.root: (context) {
+        if (tabItem == TabItem.movies) {
           return MoviesListView();
-        }else{
+        } else {
           return MoviesListView();
         }
       }
