@@ -8,6 +8,8 @@ class MovieCM {
   int id;
   @HiveField(1)
   String url;
+  @HiveField(2)
+  bool isFavorite;
 
-  MovieCM(this.id, this.url);
+  MovieCM(this.id, this.url, this.isFavorite);
 }

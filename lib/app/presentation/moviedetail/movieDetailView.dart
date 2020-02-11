@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:state_navigation/app/presentation/common/locator.dart';
 import 'package:state_navigation/app/presentation/moviedetail/movieDetailBloc.dart';
 import 'package:state_navigation/domain/error/error.dart';
 import '../../../app/presentation/common/viewUtils.dart';
@@ -16,26 +17,23 @@ class MovieDetailView extends StatefulWidget {
 
 class _MovieDetailStateView extends State<MovieDetailView> {
   int id;
-  MovieDetailBloc movieDetailBloc;
 
   _MovieDetailStateView({this.id});
 
   @override
   void initState() {
-    movieDetailBloc = MovieDetailBloc();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    movieDetailBloc.getData(id: id);
-
+    locator<MovieDetailBloc>().getData(id: id);
     return Scaffold(
       appBar: AppBar(
         title: Text("Detalhes"),
       ),
       body: StreamBuilder(
-        stream: movieDetailBloc.movieDetailStream,
+        stream: locator<MovieDetailBloc>().movieDetailStream,
         builder: (context, AsyncSnapshot<MovieDetailVM> snapshot) {
           if (snapshot.hasData && snapshot.data == null)
             return Scaffold(
@@ -44,12 +42,14 @@ class _MovieDetailStateView extends State<MovieDetailView> {
               ),
               body: loading(),
             );
-          if (snapshot.hasData) return snapshot.data;
+          if (snapshot.hasData){
+            return snapshot.data;
+          }
           if (snapshot.hasError) {
             if (snapshot.error is NetworkException)
               return internetEmptyState(() {
-                movieDetailBloc.loading();
-                movieDetailBloc.getData(id: id);
+                locator<MovieDetailBloc>().loading();
+                locator<MovieDetailBloc>().getData(id: id);
               });
             else
               return Text(snapshot.error.toString());

@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Map<TabItem, GlobalKey<NavigatorState>> _navigatorKeys = {
     TabItem.movies: GlobalKey<NavigatorState>(),
-    TabItem.series: GlobalKey<NavigatorState>(),
+    TabItem.favorites: GlobalKey<NavigatorState>(),
   };
 
   void _selectTab(TabItem tabItem) {
@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Stack(
             children: <Widget>[
               _buildOffStageNavigator(TabItem.movies),
-              _buildOffStageNavigator(TabItem.series),
+              _buildOffStageNavigator(TabItem.favorites),
             ],
           ),
         ),

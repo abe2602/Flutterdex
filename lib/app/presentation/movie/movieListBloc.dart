@@ -1,6 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:state_navigation/app/presentation/common/BaseBloc.dart';
+import 'package:state_navigation/app/presentation/common/baseBloc.dart';
 import 'package:state_navigation/app/presentation/common/locator.dart';
 import 'package:state_navigation/domain/usecase/getMovieListUC.dart';
 

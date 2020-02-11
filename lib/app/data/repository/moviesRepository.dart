@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:state_navigation/app/data/cache/cacheDataSource.dart';
+import 'package:state_navigation/app/data/cache/movieListCDS.dart';
 import 'package:state_navigation/app/data/remote/movieDetailRDS.dart';
 import 'package:state_navigation/domain/data/movieRepositoryDataSource.dart';
 import 'package:state_navigation/domain/error/error.dart';
@@ -12,7 +12,7 @@ import '../../data/remote/movieRDS.dart';
 class MoviesRepository extends MovieRepositoryDataSource {
   MoviesRDS movieListProvider;
   MovieDetailRDS movieDetailProvider;
-  CacheDataSource cacheDataSource;
+  MovieListCacheDataSource cacheDataSource;
   Box hiveBox;
 
   MoviesRepository(

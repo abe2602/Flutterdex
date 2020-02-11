@@ -2,7 +2,7 @@ import 'package:state_navigation/domain/model/movieDetail.dart';
 import 'movieDetail.dart';
 
 extension MovieDetailDMtoVM on MovieDetail{
-  MovieDetailVM toVM() => MovieDetailVM(id: this.id, url: this.url, date: this.date, voteAverage: this.voteAverage, title: this.title);
+  MovieDetailVM toVM(bool isFavorite) => MovieDetailVM(this.id, this.voteAverage, this.title, this.url, this.date, isFavorite);
 }
 
-MovieDetailVM toVM(MovieDetail movieDetail) => movieDetail.toVM();
+MovieDetailVM toVM(MovieDetail movieDetail, bool isFavorite) => movieDetail.toVM(isFavorite);

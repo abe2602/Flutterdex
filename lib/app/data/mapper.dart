@@ -7,7 +7,7 @@ import 'package:state_navigation/domain/model/movieDetail.dart';
 import 'cache/movieCM.dart';
 
 extension MovieRMToDM on MovieRM{
-  Movie toDM() => Movie(id: this.id, url: this.url);
+  Movie toDM() => Movie(id: this.id, url: this.url, isFavorite: false);
 }
 
 extension MovieDetailRMToDM on MovieDetailRM{
@@ -15,7 +15,7 @@ extension MovieDetailRMToDM on MovieDetailRM{
 }
 
 extension MovieDMToCM on Movie{
-  MovieCM toCM() => MovieCM(this.id, this.url);
+  MovieCM toCM() => MovieCM(this.id, this.url, this.isFavorite);
 }
 
 extension MovieCMToDM on MovieCM{

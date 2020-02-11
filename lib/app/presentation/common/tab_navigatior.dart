@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:state_navigation/app/presentation/favorites/FavoritesView.dart';
 
 import '../../../app/presentation/common/bottom_navigation.dart';
 import '../../../app/presentation/movie/movieListView.dart';
@@ -26,7 +27,7 @@ class TabNavigator extends StatelessWidget {
         if (tabItem == TabItem.movies) {
           return MoviesListView();
         } else {
-          return MoviesListView();
+          return FavoritesView();
         }
       }
     };
