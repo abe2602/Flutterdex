@@ -19,16 +19,19 @@ class MovieCMAdapter extends TypeAdapter<MovieCM> {
     return MovieCM(
       fields[0] as int,
       fields[1] as String,
+      fields[2] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, MovieCM obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.url);
+      ..write(obj.url)
+      ..writeByte(2)
+      ..write(obj.isFavorite);
   }
 }
