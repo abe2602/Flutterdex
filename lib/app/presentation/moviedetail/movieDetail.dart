@@ -51,45 +51,18 @@ class _MovieDetailVM extends State<MovieDetailVM> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.only(top: 100),
-            child: Column(
-              children: <Widget>[
-                CachedNetworkImage(
-                  imageUrl: url,
-                  placeholder: (context, url) =>
-                      new CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => new Icon(Icons.error),
-                ),
-                Text(title),
-                FlatButton(
-                  onPressed: () {
-                    locator<MovieDetailBloc>().favoriteMovie();
-                  },
-                  color: Colors.blueGrey,
-                  textColor: Colors.white,
-                  child: Text("Favoritar"),
-                ),
-                StreamBuilder(
-                    stream: locator<MovieDetailBloc>().favoriteMovieStream,
-                    builder: (context, AsyncSnapshot<bool> snapshot) {
-                      if (snapshot.data != null)
-                        return Image.asset(
-                          snapshot.data
-                              ? "images/favorite.png"
-                              : "images/unfavorite.png",
-                          height: 30,
-                          width: 30,
-                        );
-                      else
-                        return loading();
-                    }),
-              ],
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            Text(title),
+            CachedNetworkImage(
+              imageUrl: url,
+              placeholder: (context, url) =>
+                  new CircularProgressIndicator(),
+              errorWidget: (context, url, error) => new Icon(Icons.error),
             ),
-          ),
+
+          ],
         ),
       ),
     );

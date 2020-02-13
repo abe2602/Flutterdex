@@ -54,7 +54,7 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
   Widget movieGridLayout(List<MovieVM> movieList) {
     return GridView.count(
       crossAxisCount: 2,
-      shrinkWrap: true, //vai ocupar os espaços que precisa e nada mais
+      shrinkWrap: false, //vai ocupar os espaços que precisa e nada mais
       children: List.generate(movieList.length, (index) => movieList[index]),
     );
   }
