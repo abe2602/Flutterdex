@@ -20,28 +20,63 @@ class MoviesRepository extends MovieRepositoryDataSource {
     cacheDataSource.getHiveBox().then((box) => hiveBox = box);
   }
 
+//  Future<List<Movie>> getMoviesList() async {
+//    return await movieListProvider.getMovies().then((movieList) {
+//      cacheDataSource.write(hiveBox,
+//          list: movieList.map((movie) => movie.toCM()).toList());
+//      return movieList;
+//    }).catchError((response) {
+//      if (response is NetworkException)
+//        return cacheDataSource
+//            .getHiveBox()
+//            .then((box) => cacheDataSource.readList(box))
+//            .then((list) => list.map((movieCM) => movieCM.toDM()).toList())
+//            .catchError((error) {
+//          if (error is CacheException)
+//            throw response;
+//          else
+//            throw error;
+//        });
+//      else
+//        throw response;
+//    });
+//  }
+
   Future<List<Movie>> getMoviesList() async {
-    return await movieListProvider.getMovies().then((movieList) {
-      cacheDataSource.write(hiveBox,
-          list: movieList.map((movie) => movie.toCM()).toList());
-      return movieList;
-    }).catchError((response) {
-      if (response is NetworkException)
-        return cacheDataSource
-            .getHiveBox()
-            .then((box) => cacheDataSource.readList(box))
-            .then((list) => list.map((movieCM) => movieCM.toDM()).toList())
-            .catchError((error) {
-          if (error is CacheException)
-            throw response;
-          else
-            throw error;
+    return await cacheDataSource
+        .getHiveBox()
+        .then((box) => cacheDataSource.readList(box))
+        .then((list) => list.map((movieCM) => movieCM.toDM()).toList())
+        .catchError((error) {
+      if (error is CacheException)
+        return movieListProvider.getMovies().then((movieList) {
+          cacheDataSource.write(hiveBox,
+              list: movieList.map((movie) => movie.toCM()).toList());
+          return movieList;
         });
       else
-        throw response;
+        throw error;
     });
   }
 
-  Future<MovieDetail> getMovieDetail(int id) =>
-      movieDetailProvider.getMovieDetail(id);
+  Future<MovieDetail> getMovieDetail(int id) async =>
+      await movieDetailProvider.getMovieDetail(id).catchError((error) => throw error);
+
+  @override
+  Future<List<Movie>> favoriteMovie(int id) {
+    return cacheDataSource
+        .getHiveBox()
+        .then((box) => cacheDataSource.readList(box))
+        .then((list) {
+      list.forEach((movie) {
+        if (movie.id == id) movie.isFavorite = !movie.isFavorite;
+      });
+
+      cacheDataSource
+          .getHiveBox()
+          .then((box) => cacheDataSource.write(box, list: list));
+
+      return list.map((movieCM) => movieCM.toDM()).toList();
+    });
+  }
 }

@@ -19,5 +19,5 @@ extension MovieDMToCM on Movie{
 }
 
 extension MovieCMToDM on MovieCM{
-  Movie toDM() => Movie(id: this.id, url: this.url);
+  Movie toDM() => Movie(id: this.id, url: this.url, isFavorite: this.isFavorite);
 }

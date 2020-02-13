@@ -33,6 +33,7 @@ dependencies:
   connectivity:
   hive:
   path_provider:
+  tuple:
 
 dev_dependencies:
   flutter_test:

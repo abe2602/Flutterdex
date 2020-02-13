@@ -15,14 +15,14 @@ class MovieListBloc extends BlocBase implements BaseBloc {
   final _moviesListPublishSubject = PublishSubject<List<MovieVM>>();
 
   Stream<List<MovieVM>> get moviesListStream =>
-      _moviesListPublishSubject.stream;
+      MergeStream([_moviesListPublishSubject.stream, locator<PublishSubject<List<MovieVM>>>().stream]);
 
   @override
-  void getData({int id}) async =>
+  void getData({List<dynamic> params}) async =>
       await locator<GetMovieListUC>().call(Params()).then((movieList) {
         if (movieList != null) {
           var moviesVM =
-              List<MovieVM>.from(movieList.map((movie) => toVM(movie)));
+              List<MovieVM>.from(movieList.map((movie) => movieToVM(movie)));
           _moviesListPublishSubject.sink.add(moviesVM);
         }
       }).catchError((error) => _moviesListPublishSubject.sink.addError(error));
