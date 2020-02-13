@@ -1,6 +1,6 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' show Client, Response;
-import 'package:connectivity/connectivity.dart';
 
 class BaseRDS {
   @protected

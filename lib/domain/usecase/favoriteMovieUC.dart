@@ -1,20 +1,19 @@
 import 'package:state_navigation/domain/data/movieRepositoryDataSource.dart';
-import 'package:state_navigation/domain/model/movie.dart';
 
 import 'baseUseCase.dart';
 
-class FavoriteMovieUC implements BaseUseCase<List<Movie>, Params2> {
+class FavoriteMovieUC implements BaseUseCase<void, FavoriteMovieParams> {
   final MovieRepositoryDataSource movieRepository;
 
   FavoriteMovieUC(this.movieRepository);
 
   @override
-  Future<List<Movie>> call(Params2 params) =>
+  call(FavoriteMovieParams params) =>
       movieRepository.favoriteMovie(params.id);
 }
 
-class Params2 {
+class FavoriteMovieParams {
   final int id;
 
-  Params2({this.id});
+  FavoriteMovieParams({this.id});
 }

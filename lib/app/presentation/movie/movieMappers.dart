@@ -1,4 +1,5 @@
 import 'package:state_navigation/domain/model/movie.dart';
+
 import 'movie.dart';
 
 extension MovieDMtoVM on Movie {

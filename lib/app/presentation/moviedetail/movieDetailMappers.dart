@@ -1,4 +1,5 @@
 import 'package:state_navigation/domain/model/movieDetail.dart';
+
 import 'movieDetail.dart';
 
 extension MovieDetailDMtoVM on MovieDetail{

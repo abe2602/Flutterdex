@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:state_navigation/app/presentation/common/di.dart';
 import 'package:state_navigation/app/presentation/moviedetail/movieDetailBloc.dart';
 import 'package:state_navigation/domain/error/error.dart';
+
 import '../../../app/presentation/common/viewUtils.dart';
 import '../../../app/presentation/moviedetail/movieDetail.dart';
 
@@ -15,7 +16,8 @@ class MovieDetailView extends StatefulWidget {
   const MovieDetailView({Key key, this.id, this.isFavorite}) : super(key: key);
 
   @override
-  _MovieDetailStateView createState() => _MovieDetailStateView(id: id, isFavorite: isFavorite);
+  _MovieDetailStateView createState() =>
+      _MovieDetailStateView(id: id, isFavorite: isFavorite);
 }
 
 class _MovieDetailStateView extends State<MovieDetailView> {
@@ -81,7 +83,7 @@ class _MovieDetailStateView extends State<MovieDetailView> {
                 Text(movieDetail.title),
                 FlatButton(
                   onPressed: () {
-                    bloc.favoriteMovie(movieDetail.isFavorite, movieDetail);
+                    bloc.favoriteMovie(movieDetail);
                   },
                   color: Colors.blueGrey,
                   textColor: Colors.white,
@@ -90,24 +92,10 @@ class _MovieDetailStateView extends State<MovieDetailView> {
                 StreamBuilder(
                   stream: bloc.favoriteMovieStream,
                   builder: (context, AsyncSnapshot<bool> snapshot) {
-                    if (snapshot.data != null) {
+                    if (snapshot.hasData)
                       movieDetail.isFavorite = snapshot.data;
-                      return Image.asset(
-                        movieDetail.isFavorite
-                            ? "images/favorite.png"
-                            : "images/unfavorite.png",
-                        height: 20,
-                        width: 20,
-                      );
-                    } else {
-                      return Image.asset(
-                        movieDetail.isFavorite
-                            ? "images/favorite.png"
-                            : "images/unfavorite.png",
-                        height: 20,
-                        width: 20,
-                      );
-                    }
+
+                    return favoriteImageAsset(movieDetail.isFavorite);
                   },
                 ),
               ],

@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider(
-      create: (BuildContext context) => ApplicationDI(context),
+      create: (BuildContext context) => ApplicationDI(),
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,

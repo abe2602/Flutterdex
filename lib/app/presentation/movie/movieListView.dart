@@ -7,7 +7,6 @@ import 'package:state_navigation/app/presentation/common/di.dart';
 import 'package:state_navigation/app/presentation/common/locator.dart';
 import 'package:state_navigation/app/presentation/movie/movieListBloc.dart';
 import 'package:state_navigation/app/presentation/movie/movieListUI.dart';
-import 'package:state_navigation/app/presentation/moviedetail/movieDetail.dart';
 import 'package:state_navigation/app/presentation/moviedetail/movieDetailView.dart';
 import 'package:state_navigation/domain/error/error.dart';
 
@@ -61,12 +60,6 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
     );
   }
 
-  Widget favoriteImageAsset(bool isFavorite) => Image.asset(
-        isFavorite ? "images/favorite.png" : "images/unfavorite.png",
-        height: 20,
-        width: 20,
-      );
-
   Widget getMovieWidget(MovieVM movie) {
     MovieDetailView movieDetailView = MovieDetailView(
       id: movie.id,
@@ -94,10 +87,12 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
               ),
             ),
             StreamBuilder(
-                stream: locator<PublishSubject<MovieDetailVM>>().stream,
-                builder: (context, AsyncSnapshot<MovieDetailVM> snapshot) {
-                  if (snapshot.hasData)
-                    return favoriteImageAsset(snapshot.data.isFavorite);
+                stream: locator<PublishSubject<int>>().stream,
+                builder: (context, AsyncSnapshot<int> snapshot) {
+                  if (snapshot.data ==
+                      movie
+                          .id) //preciso dessa verificação para filtrar quando o favoritos é atualizado
+                    return favoriteImageAsset(movie.isFavorite);
                   else
                     return favoriteImageAsset(movie.isFavorite);
                 }),

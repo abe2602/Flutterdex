@@ -1,6 +1,8 @@
 import 'package:hive/hive.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:state_navigation/app/data/cache/movieListCDS.dart';
 import 'package:state_navigation/app/data/remote/movieDetailRDS.dart';
+import 'package:state_navigation/app/presentation/common/locator.dart';
 import 'package:state_navigation/domain/data/movieRepositoryDataSource.dart';
 import 'package:state_navigation/domain/error/error.dart';
 import 'package:state_navigation/domain/model/movie.dart';
@@ -50,8 +52,10 @@ class MoviesRepository extends MovieRepositoryDataSource {
         .catchError((error) {
       if (error is CacheException)
         return movieListProvider.getMovies().then((movieList) {
-          cacheDataSource.write(hiveBox,
-              list: movieList.map((movie) => movie.toCM()).toList());
+          cacheDataSource
+              .getHiveBox()
+          .then((box) => cacheDataSource.write(box,
+              list: movieList.map((movie) => movie.toCM()).toList()));
           return movieList;
         });
       else
@@ -59,12 +63,13 @@ class MoviesRepository extends MovieRepositoryDataSource {
     });
   }
 
-  Future<MovieDetail> getMovieDetail(int id) async =>
-      await movieDetailProvider.getMovieDetail(id).catchError((error) => throw error);
+  Future<MovieDetail> getMovieDetail(int id) async => await movieDetailProvider
+      .getMovieDetail(id)
+      .catchError((error) => throw error);
 
   @override
-  Future<List<Movie>> favoriteMovie(int id) {
-    return cacheDataSource
+  void favoriteMovie(int id) {
+    cacheDataSource
         .getHiveBox()
         .then((box) => cacheDataSource.readList(box))
         .then((list) {
@@ -77,6 +82,6 @@ class MoviesRepository extends MovieRepositoryDataSource {
           .then((box) => cacheDataSource.write(box, list: list));
 
       return list.map((movieCM) => movieCM.toDM()).toList();
-    });
+    }).then((list) => locator<PublishSubject<int>>().sink.add(id));
   }
 }

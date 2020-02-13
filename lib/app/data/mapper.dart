@@ -1,9 +1,8 @@
-import '../../app/data/model/movieRM.dart';
 import 'package:state_navigation/domain/model/movie.dart';
-
-import '../../app/data/model/movieDetailRM.dart';
 import 'package:state_navigation/domain/model/movieDetail.dart';
 
+import '../../app/data/model/movieDetailRM.dart';
+import '../../app/data/model/movieRM.dart';
 import 'cache/movieCM.dart';
 
 extension MovieRMToDM on MovieRM{

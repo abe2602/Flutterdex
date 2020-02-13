@@ -1,5 +1,1 @@
-import 'movieListBloc.dart';
-
-abstract class MovieListUI {
-
-}
+abstract class MovieListUI {}
