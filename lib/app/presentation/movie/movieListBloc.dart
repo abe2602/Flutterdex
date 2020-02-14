@@ -12,10 +12,11 @@ import 'movieMappers.dart';
 * É como um Observable que pega do data e, quando a view pede, envia a listagem
 * */
 class MovieListBloc extends BlocBase implements BaseBloc {
-  final _moviesListPublishSubject = PublishSubject<List<MovieVM>>();
+  final _moviesListPublishSubject = BehaviorSubject<List<MovieVM>>();
 
   Stream<List<MovieVM>> get moviesListStream =>
       _moviesListPublishSubject.stream;
+      //MergeStream([locator<PublishSubject<int>>().stream.map((value) => _moviesListPublishSubject.value), _moviesListPublishSubject.stream]);
 
   @override
   void getData({List<dynamic> params}) async => await locator<GetMovieListUC>()

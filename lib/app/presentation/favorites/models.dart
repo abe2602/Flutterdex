@@ -1,7 +1,7 @@
-class FavoritesVM {
+class FavoriteVM {
   int id;
   String url;
   bool isFavorite;
 
-  FavoritesVM({this.id, this.url, this.isFavorite});
+  FavoriteVM({this.id, this.url, this.isFavorite});
 }

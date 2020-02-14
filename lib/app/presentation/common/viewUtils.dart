@@ -39,4 +39,5 @@ Widget favoriteImageAsset(bool isFavorite) => Image.asset(
   isFavorite ? "images/favorite.png" : "images/unfavorite.png",
   height: 20,
   width: 20,
+  fit: BoxFit.scaleDown,
 );

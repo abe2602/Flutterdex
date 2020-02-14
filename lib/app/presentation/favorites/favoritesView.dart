@@ -7,31 +7,41 @@ import 'package:state_navigation/app/presentation/favorites/favoritesBloc.dart';
 import 'package:state_navigation/app/presentation/favorites/models.dart';
 import 'package:state_navigation/domain/error/error.dart';
 
-class FavoritesView extends StatefulWidget{
+class FavoritesView extends StatefulWidget {
+  final FavoritesBloc bloc;
+
+  const FavoritesView({Key key, this.bloc}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _FavoritesViewState();
+
+  static Widget create(BuildContext context) => FavoritesView(
+        bloc: Provider.of<ApplicationDI>(context).getFavoritesBloc(context),);
 }
 
-class _FavoritesViewState extends State<FavoritesView>{
-  FavoritesBloc bloc;
+class _FavoritesViewState extends State<FavoritesView> {
+  @override
+  void initState() {
+    widget.bloc.getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    bloc  = Provider.of<ApplicationDI>(context).getFavoritesBloc();
-    bloc.getData();
-
     return Scaffold(
-      appBar: AppBar(title: Text("Favoritos"),),
+      appBar: AppBar(
+        title: Text("Favoritos"),
+      ),
       body: StreamBuilder(
-        stream: bloc.favoriteListStream,
-        builder: (context, AsyncSnapshot<List<FavoritesVM>> snapshot){
+        stream: widget.bloc.favoriteListStream,
+        builder: (context, AsyncSnapshot<List<FavoriteVM>> snapshot) {
           if (snapshot.hasData && snapshot.data.isEmpty) return loading();
           if (snapshot.hasData) return favoriteListGridLayout(snapshot.data);
           if (snapshot.hasError) {
             if (snapshot.error is NetworkException)
               return internetEmptyState(() {
-                bloc.loading();
-                bloc.getData();
+                widget.bloc.loading();
+                widget.bloc.getData();
               });
             else
               return Text(snapshot.error.toString());
@@ -41,12 +51,16 @@ class _FavoritesViewState extends State<FavoritesView>{
       ),
     );
   }
-  Widget favoriteListGridLayout(List<FavoritesVM> favoriteList) {
+
+  Widget favoriteListGridLayout(List<FavoriteVM> favoriteList) {
     return GridView.count(
       crossAxisCount: 2,
       shrinkWrap: true, //vai ocupar os espaços que precisa e nada mais
       children: List.generate(
-          favoriteList.length, (index) => Card(child: Text(favoriteList[index].id.toString()),)),
+          favoriteList.length,
+          (index) => Card(
+                child: Text(favoriteList[index].id.toString()),
+              )),
     );
   }
 }

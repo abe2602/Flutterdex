@@ -14,33 +14,42 @@ import '../common/viewUtils.dart';
 import 'models.dart';
 
 class MoviesListView extends StatefulWidget {
+  final MovieListBloc bloc;
+
+  static Widget create(BuildContext context) => MoviesListView(
+        bloc: Provider.of<ApplicationDI>(context).getMovieListBloc(),
+      );
+
+  const MoviesListView({Key key, this.bloc}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _MoviesList();
 }
 
 class _MoviesList extends State<MoviesListView> implements MovieListUI {
-  MovieListBloc bloc;
+  @override
+  void initState() {
+    widget.bloc.getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    bloc = Provider.of<ApplicationDI>(context).getMovieListBloc();
-    bloc.getData();
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Movies"),
       ),
       resizeToAvoidBottomPadding: false,
       body: StreamBuilder(
-        stream: bloc.moviesListStream,
+        stream: widget.bloc.moviesListStream,
         builder: (context, AsyncSnapshot<List<MovieVM>> snapshot) {
           if (snapshot.hasData && snapshot.data.isEmpty) return loading();
           if (snapshot.hasData) return movieGridLayout(snapshot.data);
           if (snapshot.hasError) {
             if (snapshot.error is NetworkException)
               return internetEmptyState(() {
-                bloc.loading();
-                bloc.getData();
+                widget.bloc.loading();
+                widget.bloc.getData();
               });
             else
               return Text(snapshot.error.toString());
@@ -60,43 +69,71 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
     );
   }
 
+  Widget movieImage(String url) {
+    return CachedNetworkImage(
+      imageUrl: url,
+      placeholder: (context, url) => CircularProgressIndicator(),
+      errorWidget: (context, url, error) => Icon(Icons.error),
+      fit: BoxFit.cover,
+    );
+  }
+
+  //preciso dessa verificação para filtrar quando o favoritos é atualizado
+  Widget favoriteStarImage(MovieVM movie) {
+    return StreamBuilder(
+        stream: locator<PublishSubject<int>>().stream,
+        builder: (context, AsyncSnapshot<int> snapshot) {
+          if (snapshot.data == movie.id)
+            return favoriteImageAsset(true);
+          else
+            return favoriteImageAsset(movie.isFavorite);
+        });
+  }
+
   Widget getMovieWidget(MovieVM movie) {
-    MovieDetailView movieDetailView = MovieDetailView(
-      id: movie.id,
-      isFavorite: movie.isFavorite,
+    MovieDetailView movieDetailView = MovieDetailView.create(
+      context,
+      movie.id,
+      movie.isFavorite,
     );
 
-    return Card(
-      child: InkWell(
-        onTap: () => Navigator.of(context).push(
-          CupertinoPageRoute(builder: (context) => movieDetailView),
-        ),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Center(
-                child: Container(
-                  margin: EdgeInsets.all(10.0),
-                  child: CachedNetworkImage(
-                    imageUrl: movie.url,
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
-                ),
+    return Material(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Material(
+          elevation: 5,
+          shadowColor: Colors.white,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5.0),
+            child: InkWell(
+              onTap: () => Navigator.of(context).push(
+                CupertinoPageRoute(builder: (context) => movieDetailView),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Flexible(child: movieImage(movie.url)),
+                  Container(
+                      color: Colors.white,
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Flexible(
+                            child: Text(
+                              "NOME LINDO DO MEU CORAÇÃOOOOOOOOOOOOOOOOOOO",
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          favoriteImageAsset(movie.isFavorite),//favoriteStarImage(movie),
+                        ],
+                      )),
+                ],
               ),
             ),
-            StreamBuilder(
-                stream: locator<PublishSubject<int>>().stream,
-                builder: (context, AsyncSnapshot<int> snapshot) {
-                  if (snapshot.data ==
-                      movie
-                          .id) //preciso dessa verificação para filtrar quando o favoritos é atualizado
-                    return favoriteImageAsset(movie.isFavorite);
-                  else
-                    return favoriteImageAsset(movie.isFavorite);
-                }),
-          ],
+          ),
         ),
       ),
     );

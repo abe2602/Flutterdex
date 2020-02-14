@@ -25,9 +25,9 @@ class TabNavigator extends StatelessWidget {
     return {
       TabNavigatorRoutes.root: (context) {
         if (tabItem == TabItem.movies) {
-          return MoviesListView();
+          return MoviesListView.create(context);
         } else {
-          return FavoritesView();
+          return FavoritesView.create(context);
         }
       }
     };

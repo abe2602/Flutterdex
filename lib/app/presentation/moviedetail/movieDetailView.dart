@@ -12,8 +12,15 @@ import '../../../app/presentation/moviedetail/models.dart';
 class MovieDetailView extends StatefulWidget {
   final int id;
   final bool isFavorite;
+  final MovieDetailBloc bloc;
 
-  const MovieDetailView({Key key, this.id, this.isFavorite}) : super(key: key);
+  static Widget create(BuildContext context, int id, bool isFavorite) => MovieDetailView(
+    bloc: Provider.of<ApplicationDI>(context).getMovieDetailBloc(context),
+    id: id,
+    isFavorite: isFavorite,
+  );
+
+  const MovieDetailView({Key key, this.id, this.isFavorite, this.bloc}) : super(key: key);
 
   @override
   _MovieDetailStateView createState() =>
@@ -26,19 +33,21 @@ class _MovieDetailStateView extends State<MovieDetailView> {
 
   _MovieDetailStateView({this.id, this.isFavorite});
 
-  MovieDetailBloc bloc;
+  @override
+  void initState() {
+    widget.bloc.getData(params: [id, isFavorite]);
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    bloc = Provider.of<ApplicationDI>(context).getMovieDetailBloc();
-    bloc.getData(params: [id, isFavorite]);
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Detalhes"),
       ),
       body: StreamBuilder(
-        stream: bloc.movieDetailStream,
+        stream: widget.bloc.movieDetailStream,
         builder: (context, AsyncSnapshot<MovieDetailVM> snapshot) {
           if (snapshot.hasData && snapshot.data == null)
             return Scaffold(
@@ -53,8 +62,8 @@ class _MovieDetailStateView extends State<MovieDetailView> {
           if (snapshot.hasError) {
             if (snapshot.error is NetworkException)
               return internetEmptyState(() {
-                bloc.loading();
-                bloc.getData(params: [id]);
+                widget.bloc.loading();
+                widget.bloc.getData(params: [id]);
               });
             else
               return Text(snapshot.error.toString());
@@ -67,41 +76,36 @@ class _MovieDetailStateView extends State<MovieDetailView> {
 
   Widget _getMovieDetailWidget(MovieDetailVM movieDetail) {
     return Center(
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.only(top: 100),
-            child: Column(
-              children: <Widget>[
-                CachedNetworkImage(
-                  imageUrl: movieDetail.url,
-                  placeholder: (context, url) =>
-                      new CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => new Icon(Icons.error),
-                ),
-                Text(movieDetail.title),
-                FlatButton(
-                  onPressed: () {
-                    bloc.favoriteMovie(movieDetail);
-                  },
-                  color: Colors.blueGrey,
-                  textColor: Colors.white,
-                  child: Text("Favoritar"),
-                ),
-                StreamBuilder(
-                  stream: bloc.favoriteMovieStream,
-                  builder: (context, AsyncSnapshot<bool> snapshot) {
-                    if (snapshot.hasData)
-                      movieDetail.isFavorite = snapshot.data;
-
-                    return favoriteImageAsset(movieDetail.isFavorite);
-                  },
-                ),
-              ],
-            ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          CachedNetworkImage(
+            imageUrl: movieDetail.url,
+            placeholder: (context, url) =>
+                new CircularProgressIndicator(),
+            errorWidget: (context, url, error) => new Icon(Icons.error),
           ),
-        ),
+          Text(movieDetail.title),
+          FlatButton(
+            onPressed: () {
+              widget.bloc.favoriteMovie(movieDetail);
+            },
+            color: Colors.blueGrey,
+            textColor: Colors.white,
+            child: Text("Favoritar"),
+          ),
+          //favoriteImageAsset(movieDetail.isFavorite),
+          StreamBuilder(
+            stream: widget.bloc.favoriteMovieStream,
+            builder: (context, AsyncSnapshot<bool> snapshot) {
+              if (snapshot.hasData)
+                movieDetail.isFavorite = snapshot.data;
+
+              return favoriteImageAsset(movieDetail.isFavorite);
+            },
+          ),
+        ],
       ),
     );
   }

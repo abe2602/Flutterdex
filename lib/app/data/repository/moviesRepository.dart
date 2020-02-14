@@ -69,10 +69,7 @@ class MoviesRepository extends MovieRepositoryDataSource {
         .then((box) => cacheDataSource.readList(box))
         .then((list) => list
             .where((movieCM) => movieCM.isFavorite)
-            .map((movieCM) => Favorite(
-                id: movieCM.id,
-                url: movieCM.url,
-                isFavorite: movieCM.isFavorite))
+            .map((movieCM) => movieCM.toFavorite())
             .toList());
   }
 }

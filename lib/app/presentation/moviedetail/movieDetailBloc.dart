@@ -1,4 +1,5 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:state_navigation/app/presentation/common/baseBloc.dart';
 import 'package:state_navigation/app/presentation/common/locator.dart';
@@ -9,8 +10,11 @@ import 'package:state_navigation/domain/usecase/getMovieDetailsUC.dart';
 import 'movieDetailMappers.dart';
 
 class MovieDetailBloc extends BlocBase implements BaseBloc {
+  final BuildContext context;
   final _movieDetailPublishSubject = PublishSubject<MovieDetailVM>();
   final _favoriteMoviePublishSubject = PublishSubject<bool>();
+
+  MovieDetailBloc(this.context);
 
   Stream<MovieDetailVM> get movieDetailStream =>
       _movieDetailPublishSubject.stream;
@@ -29,6 +33,7 @@ class MovieDetailBloc extends BlocBase implements BaseBloc {
   void favoriteMovie(MovieDetailVM movieDetail) async {
     await locator<FavoriteMovieUC>()
         .call(FavoriteMovieParams(id: movieDetail.id));
+    notifyListeners();
     _favoriteMoviePublishSubject.sink.add(!movieDetail.isFavorite);
   }
 
