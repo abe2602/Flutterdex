@@ -1,3 +1,4 @@
+import 'package:state_navigation/app/presentation/favorites/favoritesBloc.dart';
 import 'package:state_navigation/app/presentation/movie/movieListBloc.dart';
 import 'package:state_navigation/app/presentation/moviedetail/movieDetailBloc.dart';
 
@@ -6,5 +7,5 @@ import 'package:state_navigation/app/presentation/moviedetail/movieDetailBloc.da
 class ApplicationDI {
   MovieDetailBloc getMovieDetailBloc() => MovieDetailBloc();
   MovieListBloc getMovieListBloc() => MovieListBloc();
-
+  FavoritesBloc getFavoritesBloc() => FavoritesBloc();
 }

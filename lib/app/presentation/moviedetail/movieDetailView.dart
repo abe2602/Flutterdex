@@ -7,7 +7,7 @@ import 'package:state_navigation/app/presentation/moviedetail/movieDetailBloc.da
 import 'package:state_navigation/domain/error/error.dart';
 
 import '../../../app/presentation/common/viewUtils.dart';
-import '../../../app/presentation/moviedetail/movieDetail.dart';
+import '../../../app/presentation/moviedetail/models.dart';
 
 class MovieDetailView extends StatefulWidget {
   final int id;

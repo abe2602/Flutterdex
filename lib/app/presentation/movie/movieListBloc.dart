@@ -4,7 +4,7 @@ import 'package:state_navigation/app/presentation/common/baseBloc.dart';
 import 'package:state_navigation/app/presentation/common/locator.dart';
 import 'package:state_navigation/domain/usecase/getMovieListUC.dart';
 
-import '../../../app/presentation/movie/movie.dart';
+import '../../../app/presentation/movie/models.dart';
 import 'movieMappers.dart';
 
 /*
@@ -12,7 +12,7 @@ import 'movieMappers.dart';
 * É como um Observable que pega do data e, quando a view pede, envia a listagem
 * */
 class MovieListBloc extends BlocBase implements BaseBloc {
-  final _moviesListPublishSubject = BehaviorSubject<List<MovieVM>>();
+  final _moviesListPublishSubject = PublishSubject<List<MovieVM>>();
 
   Stream<List<MovieVM>> get moviesListStream =>
       _moviesListPublishSubject.stream;

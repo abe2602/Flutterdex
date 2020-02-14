@@ -2,7 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:state_navigation/app/presentation/common/baseBloc.dart';
 import 'package:state_navigation/app/presentation/common/locator.dart';
-import 'package:state_navigation/app/presentation/moviedetail/movieDetail.dart';
+import 'package:state_navigation/app/presentation/moviedetail/models.dart';
 import 'package:state_navigation/domain/usecase/favoriteMovieUC.dart';
 import 'package:state_navigation/domain/usecase/getMovieDetailsUC.dart';
 

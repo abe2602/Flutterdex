@@ -11,7 +11,7 @@ import 'package:state_navigation/app/presentation/moviedetail/movieDetailView.da
 import 'package:state_navigation/domain/error/error.dart';
 
 import '../common/viewUtils.dart';
-import 'movie.dart';
+import 'models.dart';
 
 class MoviesListView extends StatefulWidget {
   @override

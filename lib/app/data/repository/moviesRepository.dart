@@ -5,6 +5,7 @@ import 'package:state_navigation/app/data/remote/movieDetailRDS.dart';
 import 'package:state_navigation/app/presentation/common/locator.dart';
 import 'package:state_navigation/domain/data/movieRepositoryDataSource.dart';
 import 'package:state_navigation/domain/error/error.dart';
+import 'package:state_navigation/domain/model/favorite.dart';
 import 'package:state_navigation/domain/model/movie.dart';
 import 'package:state_navigation/domain/model/movieDetail.dart';
 
@@ -22,28 +23,6 @@ class MoviesRepository extends MovieRepositoryDataSource {
     cacheDataSource.getHiveBox().then((box) => hiveBox = box);
   }
 
-//  Future<List<Movie>> getMoviesList() async {
-//    return await movieListProvider.getMovies().then((movieList) {
-//      cacheDataSource.write(hiveBox,
-//          list: movieList.map((movie) => movie.toCM()).toList());
-//      return movieList;
-//    }).catchError((response) {
-//      if (response is NetworkException)
-//        return cacheDataSource
-//            .getHiveBox()
-//            .then((box) => cacheDataSource.readList(box))
-//            .then((list) => list.map((movieCM) => movieCM.toDM()).toList())
-//            .catchError((error) {
-//          if (error is CacheException)
-//            throw response;
-//          else
-//            throw error;
-//        });
-//      else
-//        throw response;
-//    });
-//  }
-
   Future<List<Movie>> getMoviesList() async {
     return await cacheDataSource
         .getHiveBox()
@@ -52,9 +31,7 @@ class MoviesRepository extends MovieRepositoryDataSource {
         .catchError((error) {
       if (error is CacheException)
         return movieListProvider.getMovies().then((movieList) {
-          cacheDataSource
-              .getHiveBox()
-          .then((box) => cacheDataSource.write(box,
+          cacheDataSource.getHiveBox().then((box) => cacheDataSource.write(box,
               list: movieList.map((movie) => movie.toCM()).toList()));
           return movieList;
         });
@@ -83,5 +60,19 @@ class MoviesRepository extends MovieRepositoryDataSource {
 
       return list.map((movieCM) => movieCM.toDM()).toList();
     }).then((list) => locator<PublishSubject<int>>().sink.add(id));
+  }
+
+  @override
+  Future<List<Favorite>> getFavoriteList() {
+    return cacheDataSource
+        .getHiveBox()
+        .then((box) => cacheDataSource.readList(box))
+        .then((list) => list
+            .where((movieCM) => movieCM.isFavorite)
+            .map((movieCM) => Favorite(
+                id: movieCM.id,
+                url: movieCM.url,
+                isFavorite: movieCM.isFavorite))
+            .toList());
   }
 }

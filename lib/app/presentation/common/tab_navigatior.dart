@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:state_navigation/app/presentation/favorites/FavoritesView.dart';
+import 'package:state_navigation/app/presentation/favorites/favoritesView.dart';
 
 import '../../../app/presentation/common/bottom_navigation.dart';
 import '../../../app/presentation/movie/movieListView.dart';
