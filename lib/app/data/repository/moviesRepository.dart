@@ -59,7 +59,7 @@ class MoviesRepository extends MovieRepositoryDataSource {
           .then((box) => cacheDataSource.write(box, list: list));
 
       return list.map((movieCM) => movieCM.toDM()).toList();
-    }).then((list) => locator<PublishSubject<int>>().sink.add(id));
+    }).then((list) => locator<PublishSubject<List<Movie>>>().sink.add(list.toList()));
   }
 
   @override

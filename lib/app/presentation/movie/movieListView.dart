@@ -53,8 +53,10 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
               });
             else
               return Text(snapshot.error.toString());
-          } else
-            return loading();
+          } else{
+            //widget.bloc.getData();
+            return Text("Loading");//loading();
+          }
         },
       ),
     );
@@ -76,18 +78,6 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
       errorWidget: (context, url, error) => Icon(Icons.error),
       fit: BoxFit.cover,
     );
-  }
-
-  //preciso dessa verificação para filtrar quando o favoritos é atualizado
-  Widget favoriteStarImage(MovieVM movie) {
-    return StreamBuilder(
-        stream: locator<PublishSubject<int>>().stream,
-        builder: (context, AsyncSnapshot<int> snapshot) {
-          if (snapshot.data == movie.id)
-            return favoriteImageAsset(true);
-          else
-            return favoriteImageAsset(movie.isFavorite);
-        });
   }
 
   Widget getMovieWidget(MovieVM movie) {
@@ -127,7 +117,8 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          favoriteImageAsset(movie.isFavorite),//favoriteStarImage(movie),
+                          favoriteImageAsset(movie.isFavorite),
+                          //favoriteStarImage(movie),
                         ],
                       )),
                 ],

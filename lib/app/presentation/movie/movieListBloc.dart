@@ -2,6 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:state_navigation/app/presentation/common/baseBloc.dart';
 import 'package:state_navigation/app/presentation/common/locator.dart';
+import 'package:state_navigation/domain/model/movie.dart';
 import 'package:state_navigation/domain/usecase/getMovieListUC.dart';
 
 import '../../../app/presentation/movie/models.dart';
@@ -15,16 +16,23 @@ class MovieListBloc extends BlocBase implements BaseBloc {
   final _moviesListPublishSubject = BehaviorSubject<List<MovieVM>>();
 
   Stream<List<MovieVM>> get moviesListStream =>
-      _moviesListPublishSubject.stream;
-      //MergeStream([locator<PublishSubject<int>>().stream.map((value) => _moviesListPublishSubject.value), _moviesListPublishSubject.stream]);
+      MergeStream([
+        locator<PublishSubject<List<Movie>>>()
+            .stream
+            .map((list) => list.map((movie) => movie.toVM()).toList())
+            .doOnData((list) {
+          _moviesListPublishSubject.add(list);
+        }),
+        _moviesListPublishSubject.stream
+      ]);
 
   @override
   void getData({List<dynamic> params}) async => await locator<GetMovieListUC>()
-      .call(GetMovieListParams())
-      .then((movieList) {
-    _moviesListPublishSubject.sink.add(
-        List<MovieVM>.from(movieList?.map((movie) => movieToVM(movie))));
-  }).catchError((error) => _moviesListPublishSubject.sink.addError(error));
+          .call(GetMovieListParams())
+          .then((movieList) {
+        _moviesListPublishSubject.add(
+            List<MovieVM>.from(movieList?.map((movie) => movieToVM(movie))));
+      }).catchError((error) => _moviesListPublishSubject.addError(error));
 
   @override
   void loading() => _moviesListPublishSubject.sink.add(null);

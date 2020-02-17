@@ -32,3 +32,8 @@ extension MovieCMToFavorite on MovieCM {
   Favorite toFavorite() =>
       Favorite(id: this.id, url: this.url, isFavorite: this.isFavorite);
 }
+
+extension MovieDMToFavorite on Movie {
+  Favorite toFavorite() =>
+      Favorite(id: this.id, url: this.url, isFavorite: this.isFavorite);
+}

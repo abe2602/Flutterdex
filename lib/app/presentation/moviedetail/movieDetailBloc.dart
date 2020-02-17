@@ -1,7 +1,9 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:state_navigation/app/presentation/common/baseBloc.dart';
+import 'package:state_navigation/app/presentation/common/di.dart';
 import 'package:state_navigation/app/presentation/common/locator.dart';
 import 'package:state_navigation/app/presentation/moviedetail/models.dart';
 import 'package:state_navigation/domain/usecase/favoriteMovieUC.dart';
@@ -33,7 +35,6 @@ class MovieDetailBloc extends BlocBase implements BaseBloc {
   void favoriteMovie(MovieDetailVM movieDetail) async {
     await locator<FavoriteMovieUC>()
         .call(FavoriteMovieParams(id: movieDetail.id));
-    notifyListeners();
     _favoriteMoviePublishSubject.sink.add(!movieDetail.isFavorite);
   }
 

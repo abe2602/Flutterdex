@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:state_navigation/app/data/cache/favoriteMovieListCDS.dart';
 import 'package:state_navigation/app/data/cache/movieListCDS.dart';
+import 'package:state_navigation/domain/model/movie.dart';
 import 'package:state_navigation/domain/usecase/favoriteMovieUC.dart';
 import 'package:state_navigation/domain/usecase/getFavoriteList.dart';
 import 'package:state_navigation/domain/usecase/getMovieDetailsUC.dart';
@@ -31,5 +32,5 @@ void setupLocator() {
   locator.registerFactory(() => FavoriteMovieUC(locator<MoviesRepository>()));
 
   //DataObservables
-  locator.registerLazySingleton(() => PublishSubject<int>());
+  locator.registerLazySingleton(() => PublishSubject<List<Movie>>());
 }
