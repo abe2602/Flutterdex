@@ -42,7 +42,7 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
         stream: widget.bloc.moviesListStream,
         builder: (context, AsyncSnapshot<List<MovieVM>> snapshot) {
           if (snapshot.hasData && snapshot.data.isEmpty) return loading();
-          if (snapshot.hasData) return movieGridLayout(snapshot.data);
+          if (snapshot.hasData) return getMovieGridLayout(snapshot.data);
           if (snapshot.hasError) {
             if (snapshot.error is NetworkException)
               return internetEmptyState(() {
@@ -51,15 +51,15 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
               });
             else
               return Text(snapshot.error.toString());
-          } else {
+          } else
             return loading();
-          }
         },
       ),
     );
   }
 
-  Widget movieGridLayout(List<MovieVM> movieList) {
+  @override
+  Widget getMovieGridLayout(List<MovieVM> movieList) {
     return GridView.count(
       crossAxisCount: 2,
       shrinkWrap: true, //vai ocupar os espaços que precisa e nada mais
@@ -68,15 +68,7 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
     );
   }
 
-  Widget movieImage(String url) {
-    return CachedNetworkImage(
-      imageUrl: url,
-      placeholder: (context, url) => CircularProgressIndicator(),
-      errorWidget: (context, url, error) => Icon(Icons.error),
-      fit: BoxFit.cover,
-    );
-  }
-
+  @override
   Widget getMovieWidget(MovieVM movie) {
     MovieDetailView movieDetailView = MovieDetailView.create(
       context,
@@ -84,43 +76,37 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
       movie.isFavorite,
     );
 
-    return Material(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Material(
-          elevation: 5,
-          shadowColor: Colors.white,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(5.0),
-            child: InkWell(
-              onTap: () => Navigator.of(context).push(
-                CupertinoPageRoute(builder: (context) => movieDetailView),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(child: movieImage(movie.url)),
-                  Container(
-                      color: Colors.white,
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Flexible(
-                            child: Text(
-                              "NOME LINDO DO MEU CORAÇÃOOOOOOOOOOOOOOOOOOO",
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          favoriteImageAsset(movie.isFavorite),
-                          //favoriteStarImage(movie),
-                        ],
-                      )),
-                ],
-              ),
-            ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Material(
+        elevation: 3,
+        shadowColor: Colors.white,
+        child: InkWell(
+          onTap: () => Navigator.of(context).push(
+            CupertinoPageRoute(builder: (context) => movieDetailView),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(child: internetImage(movie.url)),
+              Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Flexible(
+                        child: Text(
+                          movie.title,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      favoriteImageAsset(movie.isFavorite),
+                    ],
+                  )),
+            ],
           ),
         ),
       ),

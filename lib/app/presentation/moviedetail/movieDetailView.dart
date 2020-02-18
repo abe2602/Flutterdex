@@ -14,13 +14,15 @@ class MovieDetailView extends StatefulWidget {
   final bool isFavorite;
   final MovieDetailBloc bloc;
 
-  static Widget create(BuildContext context, int id, bool isFavorite) => MovieDetailView(
-    bloc: Provider.of<ApplicationDI>(context).getMovieDetailBloc(context),
-    id: id,
-    isFavorite: isFavorite,
-  );
+  static Widget create(BuildContext context, int id, bool isFavorite) =>
+      MovieDetailView(
+        bloc: Provider.of<ApplicationDI>(context).getMovieDetailBloc(context),
+        id: id,
+        isFavorite: isFavorite,
+      );
 
-  const MovieDetailView({Key key, this.id, this.isFavorite, this.bloc}) : super(key: key);
+  const MovieDetailView({Key key, this.id, this.isFavorite, this.bloc})
+      : super(key: key);
 
   @override
   _MovieDetailStateView createState() =>
@@ -38,7 +40,6 @@ class _MovieDetailStateView extends State<MovieDetailView> {
     widget.bloc.getData(params: [id, isFavorite]);
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +84,12 @@ class _MovieDetailStateView extends State<MovieDetailView> {
           CachedNetworkImage(
             imageUrl: movieDetail.url,
             placeholder: (context, url) =>
-                new CircularProgressIndicator(),
-            errorWidget: (context, url, error) => new Icon(Icons.error),
+                Center(child: CircularProgressIndicator()),
+            errorWidget: (context, url, error) => Center(
+                child: Image.asset(
+              "images/no_image.png",
+              fit: BoxFit.cover,
+            )),
           ),
           Text(movieDetail.title),
           FlatButton(
@@ -99,8 +104,7 @@ class _MovieDetailStateView extends State<MovieDetailView> {
           StreamBuilder(
             stream: widget.bloc.favoriteMovieStream,
             builder: (context, AsyncSnapshot<bool> snapshot) {
-              if (snapshot.hasData)
-                movieDetail.isFavorite = snapshot.data;
+              if (snapshot.hasData) movieDetail.isFavorite = snapshot.data;
 
               return favoriteImageAsset(movieDetail.isFavorite);
             },

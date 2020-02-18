@@ -7,7 +7,7 @@ import '../../app/data/model/movieRM.dart';
 import 'cache/movieCM.dart';
 
 extension MovieRMToDM on MovieRM {
-  Movie toDM() => Movie(id: this.id, url: this.url, isFavorite: false);
+  Movie toDM() => Movie(this.id, this.url, this.title, false);
 }
 
 extension MovieDetailRMToDM on MovieDetailRM {
@@ -20,20 +20,20 @@ extension MovieDetailRMToDM on MovieDetailRM {
 }
 
 extension MovieDMToCM on Movie {
-  MovieCM toCM() => MovieCM(this.id, this.url, this.isFavorite);
+  MovieCM toCM() => MovieCM(this.id, this.url, this.title, this.isFavorite);
 }
 
 extension MovieCMToDM on MovieCM {
   Movie toDM() =>
-      Movie(id: this.id, url: this.url, isFavorite: this.isFavorite);
+      Movie(this.id, this.url, this.title, this.isFavorite);
 }
 
 extension MovieCMToFavorite on MovieCM {
   Favorite toFavorite() =>
-      Favorite(id: this.id, url: this.url, isFavorite: this.isFavorite);
+      Favorite(this.id, this.url, this.title, this.isFavorite);
 }
 
 extension MovieDMToFavorite on Movie {
   Favorite toFavorite() =>
-      Favorite(id: this.id, url: this.url, isFavorite: this.isFavorite);
+      Favorite(this.id, this.url, this.title, this.isFavorite);
 }

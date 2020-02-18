@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,8 @@ class FavoritesView extends StatefulWidget {
   State<StatefulWidget> createState() => _FavoritesViewState();
 
   static Widget create(BuildContext context) => FavoritesView(
-        bloc: Provider.of<ApplicationDI>(context).getFavoritesBloc(context),);
+        bloc: Provider.of<ApplicationDI>(context).getFavoritesBloc(context),
+      );
 }
 
 class _FavoritesViewState extends State<FavoritesView> {
@@ -38,17 +40,30 @@ class _FavoritesViewState extends State<FavoritesView> {
           if (snapshot.hasData && snapshot.data.isEmpty) return loading();
           if (snapshot.hasData) return favoriteListGridLayout(snapshot.data);
           if (snapshot.hasError) {
-            if (snapshot.error is NetworkException)
-              return internetEmptyState(() {
-                widget.bloc.loading();
-                widget.bloc.getData();
-              });
+            if (snapshot.error is NoFavoritesException)
+              return noFavorites();
             else
               return Text(snapshot.error.toString());
           } else
             return loading();
         },
       ),
+    );
+  }
+
+  Widget noFavorites() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Center(
+          child: Icon(
+            Icons.stars,
+            size: MediaQuery.of(context).size.width / 2,
+          ),
+        ),
+        Center(child: Text("Sua lista de favoritos está vazia =l"),),
+        Center(child: Text("Tente adicionar algum favorito e volte mais tarde!"),),
+      ],
     );
   }
 
@@ -59,8 +74,37 @@ class _FavoritesViewState extends State<FavoritesView> {
       children: List.generate(
           favoriteList.length,
           (index) => Card(
-                child: Text(favoriteList[index].id.toString()),
+                child: getMovieWidget(favoriteList[index]),
               )),
     );
+  }
+
+  Widget getMovieWidget(FavoriteVM favoriteMovie) {
+    return Material(
+      elevation: 3,
+      shadowColor: Colors.white,
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Flexible(child: internetImage(favoriteMovie.url)),
+            Container(
+                color: Colors.white,
+                padding: const EdgeInsets.all(4.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Flexible(
+                      child: Text(
+                        favoriteMovie.title,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                )),
+          ],
+        ),
+      );
   }
 }

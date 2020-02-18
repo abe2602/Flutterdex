@@ -61,10 +61,19 @@ class MoviesRepository extends MovieRepositoryDataSource {
           .then((box) => cacheDataSource.write(box, list: list));
 
       return list.map((movieCM) => movieCM.toDM()).toList();
-    }).then((list) => Provider.of<ApplicationDI>(context)
-            .getFavoriteDataObservable()
-            .sink
-            .add(list.toList()));
+    })
+          ..then((list) {
+            if (list.where((favorite) => favorite.isFavorite).length > 0)
+              Provider.of<ApplicationDI>(context)
+                  .getFavoriteDataObservable()
+                  .sink
+                  .add(list.toList());
+            else
+              Provider.of<ApplicationDI>(context)
+                  .getFavoriteDataObservable()
+                  .sink
+                  .addError(NoFavoritesException());
+          });
   }
 
   @override
@@ -72,9 +81,16 @@ class MoviesRepository extends MovieRepositoryDataSource {
     return cacheDataSource
         .getHiveBox()
         .then((box) => cacheDataSource.readList(box))
-        .then((list) => list
-            .where((movieCM) => movieCM.isFavorite)
-            .map((movieCM) => movieCM.toFavorite())
-            .toList());
+        .then((list) {
+      var favoriteList = list
+          .where((movieCM) => movieCM.isFavorite)
+          .map((movieCM) => movieCM.toFavorite())
+          .toList();
+
+      if (favoriteList.length == 0)
+        throw NoFavoritesException();
+      else
+        return favoriteList;
+    });
   }
 }

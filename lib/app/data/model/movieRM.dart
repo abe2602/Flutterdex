@@ -1,13 +1,14 @@
 class MovieRM {
   int id;
-  String url;
+  String url, title;
 
-  MovieRM({this.id, this.url});
+  MovieRM(this.id, this.title, this.url);
 
   factory MovieRM.fromJson(Map<String, dynamic> parsedJson) {
     return MovieRM(
-      id: parsedJson['id'],
-      url: parsedJson['poster_url'],
+      parsedJson['id'],
+      parsedJson['title'],
+      parsedJson['poster_url'],
     );
   }
 }

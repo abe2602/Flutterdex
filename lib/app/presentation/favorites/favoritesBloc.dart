@@ -6,6 +6,7 @@ import 'package:state_navigation/app/presentation/common/baseBloc.dart';
 import 'package:state_navigation/app/presentation/common/di.dart';
 import 'package:state_navigation/app/presentation/favorites/favoriteMappers.dart';
 import 'package:state_navigation/app/presentation/favorites/models.dart';
+import 'package:state_navigation/domain/error/error.dart';
 import 'package:state_navigation/domain/usecase/getFavoriteList.dart';
 
 import '../../data/mapper.dart';
@@ -23,10 +24,7 @@ class FavoritesBloc extends BlocBase implements BaseBloc {
             .map((list) => list
                 .where((movie) => movie.isFavorite)
                 .map((movie) => movie.toFavorite().toVM())
-                .toList())
-            .doOnData((list) {
-          _favoriteListPublishSubject.add(list);
-        }),
+                .toList()),
         _favoriteListPublishSubject.stream
       ]);
 
@@ -35,7 +33,8 @@ class FavoritesBloc extends BlocBase implements BaseBloc {
       .getFavoriteListUC(context)
       .call(GetFavoriteListParams())
       .then((favoriteList) => _favoriteListPublishSubject.sink.add(
-          favoriteList?.map((favorite) => favoriteToVM(favorite))?.toList()));
+          favoriteList?.map((favorite) => favoriteToVM(favorite))?.toList()))
+      .catchError((error) => _favoriteListPublishSubject.addError(error));
 
   @override
   void loading() => _favoriteListPublishSubject.sink.add(null);

@@ -20,25 +20,26 @@ class MovieListBloc extends BlocBase implements BaseBloc {
   MovieListBloc(this.context);
 
   Stream<List<MovieVM>> get moviesListStream => MergeStream([
-        Provider.of<ApplicationDI>(context).getFavoriteDataObservable()
-            //locator<PublishSubject<List<Movie>>>()
+        Provider.of<ApplicationDI>(context)
+            .getFavoriteDataObservable()
             .stream
             .map((list) => list.map((movie) => movie.toVM()).toList())
             .doOnData((list) {
+          list.sort((a, b) => a.isFavorite ? 0 : 1);
           _moviesListPublishSubject.add(list);
         }),
         _moviesListPublishSubject.stream
       ]);
 
   @override
-  void getData({List<dynamic> params}) async => await
-
-      Provider.of<ApplicationDI>(context)
+  void getData({List<dynamic> params}) async =>
+      await Provider.of<ApplicationDI>(context)
           .getMovieListUC(context)
           .call(GetMovieListParams())
           .then((movieList) {
-        _moviesListPublishSubject.add(
-            List<MovieVM>.from(movieList?.map((movie) => movieToVM(movie))));
+        var sortedList = List<MovieVM>.from(movieList?.map((movie) => movieToVM(movie)));
+        sortedList.sort((a, b) => a.isFavorite ? 0 : 1);
+        _moviesListPublishSubject.add(sortedList);
       }).catchError((error) => _moviesListPublishSubject.addError(error));
 
   @override

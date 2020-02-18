@@ -22,7 +22,7 @@ class MoviesRDS extends BaseRDS {
             .map((movieRM) => movieRM.toDM())
             .toList();
       else
-        throw Exception("Deu RUim");
+        throw GenericException();
     }
   }
 }

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 enum TabItem { movies, favorites }
 
 Map<TabItem, String> tabName = {
-  TabItem.movies: 'movies',
-  TabItem.favorites: 'favorites',
+  TabItem.movies: 'Filmes',
+  TabItem.favorites: 'Favoritos',
 };
 
 class BottomNavigation extends StatelessWidget {
