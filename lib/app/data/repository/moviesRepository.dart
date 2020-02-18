@@ -1,8 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:provider/provider.dart';
 import 'package:state_navigation/app/data/cache/movieListCDS.dart';
 import 'package:state_navigation/app/data/remote/movieDetailRDS.dart';
-import 'package:state_navigation/app/presentation/common/locator.dart';
+import 'package:state_navigation/app/presentation/common/di.dart';
 import 'package:state_navigation/domain/data/movieRepositoryDataSource.dart';
 import 'package:state_navigation/domain/error/error.dart';
 import 'package:state_navigation/domain/model/favorite.dart';
@@ -17,9 +18,10 @@ class MoviesRepository extends MovieRepositoryDataSource {
   MovieDetailRDS movieDetailProvider;
   MovieListCacheDataSource cacheDataSource;
   Box hiveBox;
+  BuildContext context;
 
-  MoviesRepository(
-      this.movieDetailProvider, this.movieListProvider, this.cacheDataSource) {
+  MoviesRepository(this.movieDetailProvider, this.movieListProvider,
+      this.cacheDataSource, this.context) {
     cacheDataSource.getHiveBox().then((box) => hiveBox = box);
   }
 
@@ -59,7 +61,10 @@ class MoviesRepository extends MovieRepositoryDataSource {
           .then((box) => cacheDataSource.write(box, list: list));
 
       return list.map((movieCM) => movieCM.toDM()).toList();
-    }).then((list) => locator<PublishSubject<List<Movie>>>().sink.add(list.toList()));
+    }).then((list) => Provider.of<ApplicationDI>(context)
+            .getFavoriteDataObservable()
+            .sink
+            .add(list.toList()));
   }
 
   @override

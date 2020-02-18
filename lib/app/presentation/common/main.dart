@@ -5,7 +5,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:state_navigation/app/data/cache/movieCM.dart';
 import 'package:state_navigation/app/presentation/common/di.dart';
-import 'package:state_navigation/app/presentation/common/locator.dart';
 import 'package:state_navigation/app/presentation/common/tab_navigatior.dart';
 
 import '../../../app/presentation/common/bottom_navigation.dart';
@@ -15,7 +14,6 @@ void main() async {
   var dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
   Hive.registerAdapter(MovieCMAdapter());
-  setupLocator();
   runApp(MyApp());
 }
 

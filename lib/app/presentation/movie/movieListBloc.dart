@@ -1,8 +1,9 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:state_navigation/app/presentation/common/baseBloc.dart';
-import 'package:state_navigation/app/presentation/common/locator.dart';
-import 'package:state_navigation/domain/model/movie.dart';
+import 'package:state_navigation/app/presentation/common/di.dart';
 import 'package:state_navigation/domain/usecase/getMovieListUC.dart';
 
 import '../../../app/presentation/movie/models.dart';
@@ -13,11 +14,14 @@ import 'movieMappers.dart';
 * É como um Observable que pega do data e, quando a view pede, envia a listagem
 * */
 class MovieListBloc extends BlocBase implements BaseBloc {
-  final _moviesListPublishSubject = BehaviorSubject<List<MovieVM>>();
+  final BuildContext context;
+  final _moviesListPublishSubject = PublishSubject<List<MovieVM>>();
 
-  Stream<List<MovieVM>> get moviesListStream =>
-      MergeStream([
-        locator<PublishSubject<List<Movie>>>()
+  MovieListBloc(this.context);
+
+  Stream<List<MovieVM>> get moviesListStream => MergeStream([
+        Provider.of<ApplicationDI>(context).getFavoriteDataObservable()
+            //locator<PublishSubject<List<Movie>>>()
             .stream
             .map((list) => list.map((movie) => movie.toVM()).toList())
             .doOnData((list) {
@@ -27,7 +31,10 @@ class MovieListBloc extends BlocBase implements BaseBloc {
       ]);
 
   @override
-  void getData({List<dynamic> params}) async => await locator<GetMovieListUC>()
+  void getData({List<dynamic> params}) async => await
+
+      Provider.of<ApplicationDI>(context)
+          .getMovieListUC(context)
           .call(GetMovieListParams())
           .then((movieList) {
         _moviesListPublishSubject.add(
@@ -39,7 +46,6 @@ class MovieListBloc extends BlocBase implements BaseBloc {
 
   @override
   void dispose() {
-    locator.unregister<GetMovieListUC>();
     _moviesListPublishSubject.close();
     super.dispose();
   }

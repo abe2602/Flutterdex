@@ -27,13 +27,10 @@ dependencies:
   cached_network_image:
   rxdart:
   bloc_pattern:
-  dio:
   provider:
-  get_it:
   connectivity:
   hive:
   path_provider:
-  tuple:
 
 dev_dependencies:
   flutter_test:

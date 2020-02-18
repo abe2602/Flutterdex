@@ -2,9 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:state_navigation/app/presentation/common/di.dart';
-import 'package:state_navigation/app/presentation/common/locator.dart';
 import 'package:state_navigation/app/presentation/movie/movieListBloc.dart';
 import 'package:state_navigation/app/presentation/movie/movieListUI.dart';
 import 'package:state_navigation/app/presentation/moviedetail/movieDetailView.dart';
@@ -17,7 +15,7 @@ class MoviesListView extends StatefulWidget {
   final MovieListBloc bloc;
 
   static Widget create(BuildContext context) => MoviesListView(
-        bloc: Provider.of<ApplicationDI>(context).getMovieListBloc(),
+        bloc: Provider.of<ApplicationDI>(context).getMovieListBloc(context),
       );
 
   const MoviesListView({Key key, this.bloc}) : super(key: key);
@@ -53,9 +51,8 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
               });
             else
               return Text(snapshot.error.toString());
-          } else{
-            //widget.bloc.getData();
-            return Text("Loading");//loading();
+          } else {
+            return loading();
           }
         },
       ),

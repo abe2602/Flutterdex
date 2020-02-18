@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:state_navigation/app/presentation/common/baseBloc.dart';
 import 'package:state_navigation/app/presentation/common/di.dart';
-import 'package:state_navigation/app/presentation/common/locator.dart';
 import 'package:state_navigation/app/presentation/moviedetail/models.dart';
 import 'package:state_navigation/domain/usecase/favoriteMovieUC.dart';
 import 'package:state_navigation/domain/usecase/getMovieDetailsUC.dart';
@@ -25,15 +24,15 @@ class MovieDetailBloc extends BlocBase implements BaseBloc {
 
   @override
   void getData({List<dynamic> params}) async {
-    await locator<GetMovieDetailsUC>()
+    await Provider.of<ApplicationDI>(context).getMovieDetailsUC(context)
         .call(GetMovieDetailsParams(id: params[0]))
         .then((movieDetail) => _movieDetailPublishSubject.sink
-        .add(movieDetailToVM(movieDetail, params[1])))
+            .add(movieDetailToVM(movieDetail, params[1])))
         .catchError((error) => _movieDetailPublishSubject.addError(error));
   }
 
   void favoriteMovie(MovieDetailVM movieDetail) async {
-    await locator<FavoriteMovieUC>()
+    await Provider.of<ApplicationDI>(context).favoriteMovieUC(context)
         .call(FavoriteMovieParams(id: movieDetail.id));
     _favoriteMoviePublishSubject.sink.add(!movieDetail.isFavorite);
   }
@@ -43,7 +42,6 @@ class MovieDetailBloc extends BlocBase implements BaseBloc {
 
   @override
   void dispose() {
-    locator.unregister<GetMovieDetailsUC>();
     _movieDetailPublishSubject.close();
     _favoriteMoviePublishSubject.close();
     super.dispose();
