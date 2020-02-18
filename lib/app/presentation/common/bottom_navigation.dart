@@ -9,30 +9,28 @@ Map<TabItem, String> tabName = {
 };
 
 class BottomNavigation extends StatelessWidget {
+  BottomNavigation({this.currentTab, this.onSelectTab}); //construtor
   final ValueChanged<TabItem> onSelectTab; //avisa qual tab foi selecionada
   final TabItem currentTab;
   final int currentIndex = 0;
 
-  BottomNavigation({this.currentTab, this.onSelectTab}); //construtor
-
   @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: [
-        _buildItem(icon: Icon(Icons.movie_filter), tabItem: TabItem.movies),
-        _buildItem(icon: Icon(Icons.movie_filter), tabItem: TabItem.favorites),
-      ],
-      onTap: (index) {
-        onSelectTab(
-          TabItem.values[index],
-        );
-      },
-      currentIndex: _getBottomNavigationItem(currentTab),
-    );
-  }
+  Widget build(BuildContext context) => BottomNavigationBar(
+        items: [
+          _buildItem(icon: Icon(Icons.movie_filter), tabItem: TabItem.movies),
+          _buildItem(
+              icon: Icon(Icons.movie_filter), tabItem: TabItem.favorites),
+        ],
+        onTap: (index) {
+          onSelectTab(
+            TabItem.values[index],
+          );
+        },
+        currentIndex: _getBottomNavigationItem(currentTab),
+      );
 
   int _getBottomNavigationItem(TabItem tab) {
-    int currentIndex = 0;
+    var currentIndex = 0;
 
     switch (tab) {
       case TabItem.movies:
@@ -47,15 +45,14 @@ class BottomNavigation extends StatelessWidget {
     return currentIndex;
   }
 
-  BottomNavigationBarItem _buildItem({TabItem tabItem, Icon icon}) {
-    return BottomNavigationBarItem(
-      icon: icon,
-      title: Text(
-        tabName[tabItem],
-        style: TextStyle(
-          color: currentTab == tabItem ? Colors.blue : Colors.grey,
+  BottomNavigationBarItem _buildItem({TabItem tabItem, Icon icon}) =>
+      BottomNavigationBarItem(
+        icon: icon,
+        title: Text(
+          tabName[tabItem],
+          style: TextStyle(
+            color: currentTab == tabItem ? Colors.blue : Colors.grey,
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

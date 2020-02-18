@@ -1,9 +1,11 @@
 import 'package:hive/hive.dart';
 
-part 'movieCM.g.dart';
+part 'movie_cm.g.dart';
 
 @HiveType(typeId: 1)
 class MovieCM {
+  MovieCM(this.id, this.url, this.title, this.isFavorite);
+
   @HiveField(0)
   int id;
   @HiveField(1)
@@ -12,6 +14,4 @@ class MovieCM {
   String title;
   @HiveField(3)
   bool isFavorite;
-
-  MovieCM(this.id, this.url, this.title, this.isFavorite);
 }

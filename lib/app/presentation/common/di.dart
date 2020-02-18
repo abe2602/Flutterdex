@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:state_navigation/app/data/cache/favoriteMovieListCDS.dart';
-import 'package:state_navigation/app/data/cache/movieListCDS.dart';
-import 'package:state_navigation/app/data/remote/movieDetailRDS.dart';
-import 'package:state_navigation/app/data/remote/movieRDS.dart';
-import 'package:state_navigation/app/data/repository/moviesRepository.dart';
-import 'package:state_navigation/app/presentation/favorites/favoritesBloc.dart';
-import 'package:state_navigation/app/presentation/movie/movieListBloc.dart';
-import 'package:state_navigation/app/presentation/moviedetail/movieDetailBloc.dart';
+import 'package:state_navigation/app/data/cache/favorite_movie_list_cds.dart';
+import 'package:state_navigation/app/data/cache/movie_list_cds.dart';
+import 'package:state_navigation/app/data/remote/movie_metail_rds.dart';
+import 'package:state_navigation/app/data/remote/movie_rds.dart';
+import 'package:state_navigation/app/data/repository/movies_repository.dart';
+import 'package:state_navigation/app/presentation/favorites/favorites_bloc.dart';
+import 'package:state_navigation/app/presentation/movie/movie_list_bloc.dart';
+import 'package:state_navigation/app/presentation/moviedetail/movie_detail_bloc.dart';
 import 'package:state_navigation/domain/model/movie.dart';
-import 'package:state_navigation/domain/usecase/favoriteMovieUC.dart';
-import 'package:state_navigation/domain/usecase/getFavoriteList.dart';
-import 'package:state_navigation/domain/usecase/getMovieDetailsUC.dart';
-import 'package:state_navigation/domain/usecase/getMovieListUC.dart';
+import 'package:state_navigation/domain/usecase/favorite_movie_uc.dart';
+import 'package:state_navigation/domain/usecase/get_favorite_list.dart';
+import 'package:state_navigation/domain/usecase/get_movie_details_uc.dart';
+import 'package:state_navigation/domain/usecase/get_movie_list_uc.dart';
 
 ///Tudo que está aqui dentro pode ser acessado por qualquer filho do MaterialApp
 ///var diProvider = Provider.of<ApplicationDI>(context); para acessar

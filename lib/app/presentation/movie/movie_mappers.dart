@@ -4,10 +4,10 @@ import 'models.dart';
 
 extension MovieDMtoVM on Movie {
   MovieVM toVM() => MovieVM(
-        this.id,
-        this.url,
-        this.title,
-        this.isFavorite,
+        id,
+        url,
+        title,
+        isFavorite,
       );
 }
 

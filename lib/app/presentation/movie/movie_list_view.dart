@@ -1,24 +1,22 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:state_navigation/app/presentation/common/di.dart';
-import 'package:state_navigation/app/presentation/movie/movieListBloc.dart';
-import 'package:state_navigation/app/presentation/movie/movieListUI.dart';
-import 'package:state_navigation/app/presentation/moviedetail/movieDetailView.dart';
+import 'package:state_navigation/app/presentation/movie/movie_list_bloc.dart';
+import 'package:state_navigation/app/presentation/movie/movie_list_ui.dart';
+import 'package:state_navigation/app/presentation/moviedetail/movie_detail_view.dart';
 import 'package:state_navigation/domain/error/error.dart';
 
-import '../common/viewUtils.dart';
+import '../common/view_utils.dart';
 import 'models.dart';
 
 class MoviesListView extends StatefulWidget {
-  final MovieListBloc bloc;
+  const MoviesListView({Key key, this.bloc}) : super(key: key);
 
   static Widget create(BuildContext context) => MoviesListView(
         bloc: Provider.of<ApplicationDI>(context).getMovieListBloc(context),
       );
-
-  const MoviesListView({Key key, this.bloc}) : super(key: key);
+  final MovieListBloc bloc;
 
   @override
   State<StatefulWidget> createState() => _MoviesList();
@@ -32,45 +30,47 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Movies"),
-      ),
-      resizeToAvoidBottomPadding: false,
-      body: StreamBuilder(
-        stream: widget.bloc.moviesListStream,
-        builder: (context, AsyncSnapshot<List<MovieVM>> snapshot) {
-          if (snapshot.hasData && snapshot.data.isEmpty) return loading();
-          if (snapshot.hasData) return getMovieGridLayout(snapshot.data);
-          if (snapshot.hasError) {
-            if (snapshot.error is NetworkException)
-              return internetEmptyState(() {
-                widget.bloc.loading();
-                widget.bloc.getData();
-              });
-            else
-              return Text(snapshot.error.toString());
-          } else
-            return loading();
-        },
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: const Text('Filmes'),
+        ),
+        resizeToAvoidBottomPadding: false,
+        body: StreamBuilder(
+          stream: widget.bloc.moviesListStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data.isEmpty) {
+              return loading();
+            }
+            if (snapshot.hasData) {
+              return getMovieGridLayout(snapshot.data);
+            }
+            if (snapshot.hasError) {
+              if (snapshot.error is NetworkException) {
+                return internetEmptyState(() {
+                  widget.bloc.loading();
+                  widget.bloc.getData();
+                });
+              } else {
+                return Text(snapshot.error.toString());
+              }
+            } else {
+              return loading();
+            }
+          },
+        ),
+      );
 
   @override
-  Widget getMovieGridLayout(List<MovieVM> movieList) {
-    return GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true, //vai ocupar os espaços que precisa e nada mais
-      children: List.generate(
-          movieList.length, (index) => getMovieWidget(movieList[index])),
-    );
-  }
+  Widget getMovieGridLayout(List<MovieVM> movieList) => GridView.count(
+        crossAxisCount: 2,
+        shrinkWrap: true, //vai ocupar os espaços que precisa e nada mais
+        children: List.generate(
+            movieList.length, (index) => getMovieWidget(movieList[index])),
+      );
 
   @override
   Widget getMovieWidget(MovieVM movie) {
-    MovieDetailView movieDetailView = MovieDetailView.create(
+    final MovieDetailView movieDetailView = MovieDetailView.create(
       context,
       movie.id,
       movie.isFavorite,

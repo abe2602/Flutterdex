@@ -3,10 +3,10 @@ import 'package:state_navigation/domain/model/favorite.dart';
 
 extension FavoriteDMtoVM on Favorite {
   FavoriteVM toVM() => FavoriteVM(
-    this.id,
-    this.url,
-    this.title,
-    this.isFavorite,
+    id,
+    url,
+    title,
+    isFavorite,
   );
 }
 
