@@ -37,10 +37,12 @@ class _FavoritesViewState extends State<FavoritesView> {
             if (snapshot.hasData && snapshot.data.isEmpty) {
               return loading();
             }
-            // ignore: always_put_control_body_on_new_line
-            if (snapshot.hasData) return favoriteListGridLayout(snapshot.data);
+            if (snapshot.hasData) {
+              return favoriteListGridLayout(snapshot.data);
+            }
             if (snapshot.hasError) {
-              if (snapshot.error is NoFavoritesException) {
+              if (snapshot.error is NoFavoritesException ||
+                  snapshot.error is CacheException) {
                 return noFavorites();
               } else {
                 return Text(snapshot.error.toString());
@@ -82,29 +84,29 @@ class _FavoritesViewState extends State<FavoritesView> {
       );
 
   Widget getMovieWidget(FavoriteVM favoriteMovie) => Material(
-      elevation: 3,
-      shadowColor: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Flexible(child: internetImage(favoriteMovie.url)),
-          Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Flexible(
-                    child: Text(
-                      favoriteMovie.title,
-                      overflow: TextOverflow.ellipsis,
+        elevation: 3,
+        shadowColor: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Flexible(child: internetImage(favoriteMovie.url)),
+            Container(
+                color: Colors.white,
+                padding: const EdgeInsets.all(4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Flexible(
+                      child: Text(
+                        favoriteMovie.title,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                ],
-              )),
-        ],
-      ),
-    );
+                  ],
+                )),
+          ],
+        ),
+      );
 }

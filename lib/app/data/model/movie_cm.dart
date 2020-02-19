@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 
 part 'movie_cm.g.dart';
-
+// flutter pub run build_runner build
 @HiveType(typeId: 1)
 class MovieCM {
   MovieCM(this.id, this.url, this.title, this.isFavorite);

@@ -77,7 +77,7 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
     );
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: Material(
         elevation: 3,
         shadowColor: Colors.white,
@@ -92,7 +92,7 @@ class _MoviesList extends State<MoviesListView> implements MovieListUI {
               Flexible(child: internetImage(movie.url)),
               Container(
                   color: Colors.white,
-                  padding: const EdgeInsets.all(4.0),
+                  padding: const EdgeInsets.all(4),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,

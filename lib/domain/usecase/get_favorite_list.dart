@@ -9,8 +9,8 @@ class GetFavoriteListUC
   final MovieRepositoryDataSource moviesRepository;
 
   @override
-  Future<List<Favorite>> call(GetFavoriteListParams params) =>
-      moviesRepository.getFavoriteList();
+  Future<List<Favorite>> call(GetFavoriteListParams params) => moviesRepository
+      .getFavoriteList();
 }
 
 class GetFavoriteListParams {}

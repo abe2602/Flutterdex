@@ -25,6 +25,7 @@ class MoviesRepository extends MovieRepositoryDataSource {
   Box hiveBox;
   BuildContext context;
 
+  @override
   Future<List<Movie>> getMoviesList() async => cacheDataSource
           .getHiveBox()
           .then((box) => cacheDataSource.readList(box))
