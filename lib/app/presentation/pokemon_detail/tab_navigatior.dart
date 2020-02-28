@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:state_navigation/app/presentation/favorites/favorites_view.dart';
 
-import '../../../app/presentation/common/bottom_navigation.dart';
-import '../../../app/presentation/movie/movie_list_view.dart';
+import 'bottom_navigation.dart';
 
 /// SOBRE MODAL: para que um modal seja exibido,
 /// basta que o Navigator.push seja chamado
@@ -26,10 +24,10 @@ class TabNavigator extends StatelessWidget {
   //Retorna os widgets possíveis na navegação
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context) => {
       TabNavigatorRoutes.root: (context) {
-        if (tabItem == TabItem.movies) {
-          return MoviesListView.create(context);
+        if (tabItem == TabItem.info) {
+          return Text("Listagem de POkémons");
         } else {
-          return FavoritesView.create(context);
+          return Text("Alguma coisa mais");
         }
       }
     };

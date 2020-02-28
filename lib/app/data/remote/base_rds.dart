@@ -12,7 +12,7 @@ class BaseRDS {
   @protected
   Response response;
   @protected
-  String baseUrl = 'https://desafio-mobile.nyc3.digitaloceanspaces.com/movies';
+  String baseUrl = 'https://pokeapi.co/api/v2/';
   @protected
   ConnectivityResult connectivityResult;
 }

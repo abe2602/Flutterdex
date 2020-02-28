@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-enum TabItem { movies, favorites }
+enum TabItem { info, techniques, more }
 
 Map<TabItem, String> tabName = {
-  TabItem.movies: 'Filmes',
-  TabItem.favorites: 'Favoritos',
+  TabItem.info: 'Information',
+  TabItem.techniques: 'Techniques',
+  TabItem.more: 'More'
 };
 
 class BottomNavigation extends StatelessWidget {
@@ -17,9 +18,9 @@ class BottomNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BottomNavigationBar(
         items: [
-          _buildItem(icon: Icon(Icons.movie_filter), tabItem: TabItem.movies),
+          _buildItem(icon: Icon(Icons.movie_filter), tabItem: TabItem.info),
           _buildItem(
-              icon: Icon(Icons.movie_filter), tabItem: TabItem.favorites),
+              icon: Icon(Icons.movie_filter), tabItem: TabItem.techniques),
         ],
         onTap: (index) {
           onSelectTab(
@@ -33,12 +34,16 @@ class BottomNavigation extends StatelessWidget {
     var currentIndex = 0;
 
     switch (tab) {
-      case TabItem.movies:
+      case TabItem.info:
         currentIndex = 0;
         break;
 
-      case TabItem.favorites:
+      case TabItem.techniques:
         currentIndex = 1;
+        break;
+
+      case TabItem.more:
+        currentIndex = 2;
         break;
     }
 
