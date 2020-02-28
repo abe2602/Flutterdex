@@ -14,6 +14,7 @@ class _PokemonDetailViewState extends State<PokemonDetailView> {
   final Map<TabItem, GlobalKey<NavigatorState>> _navigatorKeys = {
     TabItem.info: GlobalKey<NavigatorState>(),
     TabItem.techniques: GlobalKey<NavigatorState>(),
+    TabItem.more: GlobalKey<NavigatorState>(),
   };
 
   void _selectTab(TabItem tabItem) {
@@ -35,11 +36,13 @@ class _PokemonDetailViewState extends State<PokemonDetailView> {
     onWillPop: () async =>
     !await _navigatorKeys[_currentTab].currentState.maybePop(),
     child: Scaffold(
+      appBar: AppBar(title: Text("Pokemon Details"),),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
             _buildOffStageNavigator(TabItem.info),
             _buildOffStageNavigator(TabItem.techniques),
+            _buildOffStageNavigator(TabItem.more),
           ],
         ),
       ),

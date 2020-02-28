@@ -15,7 +15,7 @@ class PokemonListRDS extends BaseRDS {
     if (connectivityResult == ConnectivityResult.none) {
       throw NetworkException();
     } else {
-      const endPoint = 'pokemon?limit=10000';
+      const endPoint = 'pokemon?limit=151';
       response = await client.get('$baseUrl/$endPoint');
       if (response.statusCode == 200) {
         return List<PokemonRM>.from(json

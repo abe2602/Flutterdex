@@ -25,9 +25,11 @@ class TabNavigator extends StatelessWidget {
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context) => {
       TabNavigatorRoutes.root: (context) {
         if (tabItem == TabItem.info) {
-          return Text("Listagem de POkémons");
-        } else {
-          return Text("Alguma coisa mais");
+          return Text("Information Screen");
+        } else if(tabItem == TabItem.techniques){
+          return Text("Techniques Screen");
+        } else{
+          return Text('More Screen');
         }
       }
     };

@@ -18,9 +18,10 @@ class BottomNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BottomNavigationBar(
         items: [
-          _buildItem(icon: Icon(Icons.movie_filter), tabItem: TabItem.info),
+          _buildItem(icon: Icon(Icons.info), tabItem: TabItem.info),
           _buildItem(
-              icon: Icon(Icons.movie_filter), tabItem: TabItem.techniques),
+              icon: Icon(Icons.gavel), tabItem: TabItem.techniques),
+          _buildItem(icon: Icon(Icons.more_horiz), tabItem: TabItem.more),
         ],
         onTap: (index) {
           onSelectTab(
@@ -28,6 +29,7 @@ class BottomNavigation extends StatelessWidget {
           );
         },
         currentIndex: _getBottomNavigationItem(currentTab),
+        showUnselectedLabels: false,
       );
 
   int _getBottomNavigationItem(TabItem tab) {
