@@ -9,6 +9,6 @@ class PokemonRepository implements PokemonRepositoryDataSource {
   PokemonListRDS pokemonListProvider;
 
   @override
-  Future<List<Pokemon>> getPokemonList() async =>
-      pokemonListProvider.getPokemonList();
+  Future<List<Pokemon>> getPokemonList(int page) async =>
+      pokemonListProvider.getPokemonList(page);
 }

@@ -9,14 +9,15 @@ import '../../data/mapper.dart';
 import 'base_rds.dart';
 
 class PokemonListRDS extends BaseRDS {
-  Future<List<Pokemon>> getPokemonList() async {
+  Future<List<Pokemon>> getPokemonList(int page) async {
+
     connectivityResult = await Connectivity().checkConnectivity();
 
     if (connectivityResult == ConnectivityResult.none) {
       throw NetworkException();
     } else {
-      const endPoint = 'pokemon?limit=151';
-      response = await client.get('$baseUrl/$endPoint');
+      var endPoint = 'https://pokeapi.co/api/v2/pokemon/?offset=$page&limit=20';
+      response = await client.get(endPoint);
       if (response.statusCode == 200) {
         return List<PokemonRM>.from(json
                 .decode(response.body)['results']

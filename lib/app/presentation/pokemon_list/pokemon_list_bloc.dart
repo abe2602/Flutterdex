@@ -17,17 +17,21 @@ class PokemonListBloc extends BlocBase implements BaseBloc {
       _pokemonListPublishSubject.stream;
   final BuildContext _context;
 
+  List<PokemonVM> paginatedPokemonList = [];
+
   PokemonVM toVM(Pokemon pokemon) => PokemonVM(pokemon.name, pokemon.detailUrl);
 
   @override
-  Future<void> getData({List params}) async =>
-      Provider.of<ApplicationDI>(_context)
-          .getPokemonListUC()
-          .call(GetPokemonListUcParams())
-          .then((pokemonList) {
-        _pokemonListPublishSubject.sink
-            .add(List<PokemonVM>.from(pokemonList?.map(toVM)));
-      });
+  Future<void> getData({List params}) async {
+    var paramsUc = GetPokemonListUcParams()..page = params[0];
+    return Provider.of<ApplicationDI>(_context)
+        .getPokemonListUC()
+        .call(paramsUc)
+        .then((pokemonList) {
+      paginatedPokemonList.addAll(List<PokemonVM>.from(pokemonList?.map(toVM)));
+      _pokemonListPublishSubject.sink.add(paginatedPokemonList);
+    });
+  }
 
   @override
   void loading() => _pokemonListPublishSubject.sink.add(null);

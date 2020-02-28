@@ -12,7 +12,9 @@ class GetPokemonListUC
 
   @override
   Future<List<Pokemon>> call(GetPokemonListUcParams params) =>
-      pokemonRepository.getPokemonList();
+      pokemonRepository.getPokemonList(params.page);
 }
 
-class GetPokemonListUcParams {}
+class GetPokemonListUcParams {
+  int page;
+}
