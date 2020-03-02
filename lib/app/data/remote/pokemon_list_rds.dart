@@ -16,7 +16,7 @@ class PokemonListRDS extends BaseRDS {
     if (connectivityResult == ConnectivityResult.none) {
       throw NetworkException();
     } else {
-      var endPoint = 'https://pokeapi.co/api/v2/pokemon/?offset=$page&limit=20';
+      final endPoint = 'https://pokeapi.co/api/v2/pokemon/?offset=$page&limit=20';
       response = await client.get(endPoint);
       if (response.statusCode == 200) {
         return List<PokemonRM>.from(json

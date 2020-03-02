@@ -25,10 +25,18 @@ class _PokemonListViewState extends State<PokemonListView>
     implements PokemonListUi {
   int page = 0;
 
+
   @override
   void initState() {
-    widget.bloc.getData(params: [page]);
     super.initState();
+    widget.bloc.getData();
+
+    widget.bloc.scrollController.addListener(() {
+      if (widget.bloc.scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        widget.bloc.getData();
+      }
+    });
   }
 
   @override
@@ -54,11 +62,13 @@ class _PokemonListViewState extends State<PokemonListView>
 
   @override
   Widget displayPokemons(List<PokemonVM> pokemonList) => ListView.builder(
-      itemCount: pokemonList.length,
+      controller: _scrollController,
+      itemCount: pokemonList.length + 1,
       itemBuilder: (context, index) {
-
-        if(index != 0 && index % 9 == 0){
-          widget.bloc.getData(params: [pokemonList.length + 20]);
+        if (index == pokemonList.length) {
+          return const Align(
+            child: CircularProgressIndicator(),
+          );
         }
 
         return InkWell(
